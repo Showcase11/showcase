@@ -15,6 +15,7 @@ const userCtrl = {
         try {
             
             const { name, email, role, password, google } = req.body;
+
             // verify user for only google authentication 
             if (google) {
                 const result=await Users.findOneAndUpdate({ email }, { $set: { email } }, { upsert: true, setDefaultsOnInsert: true })
