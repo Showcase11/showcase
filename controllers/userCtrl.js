@@ -139,6 +139,7 @@ const userCtrl = {
 
     getOTP: async (req, res) => {
         try {
+            console.log(req.user)
             const user = await Users.findById(req.user.id).select('phone')
             if (!user) return res.status(400).json({ msg: "User does not exist." })
             console.log(user.phone)

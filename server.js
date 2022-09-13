@@ -122,6 +122,7 @@ app.patch("/updatePass", async(req, res) => {
 // otp send api 
 app.post("/onetimepassword", (req, res) => {
   let { country, phone } = req.body;
+  console.log(req.body)
   client.verify
     .services(process.env.serviceID)
     .verifications.create({ to: `+${country}${phone}`, channel: "sms" })
@@ -135,9 +136,17 @@ app.post("/onetimepassword", (req, res) => {
     });
 });
 
+
+
+/* serviceID = VAce3c11a44db0fb4e3f1c257f35e71c4f
+acountSID = ACeda528334d03b1dbdab612410003f30d
+authToken = 0fa2f3bb7636e7cbcf3d98bdc528f730 */
+
+
 // otp check api 
 app.post("/otpcheck", (req, res) => {
   let { otp, country, phone } = req.body;
+  console.log(req.body)
   client.verify
     .services(process.env.serviceID)
     .verificationChecks.create({ to: `+${country}${phone}`, code: otp })
