@@ -36,7 +36,7 @@ const RegisterPersonal = () => {
     let regxpass = new RegExp(
       "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
     );
-    const userexist = await fetch("http://localhost:5000/exist", {
+    const userexist = await fetch("http://3.110.108.123:5000/exist", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const RegisterPersonal = () => {
     ) {
       try {
         const response = await axios.post(
-          "http://localhost:5000/user/register",
+          "http://3.110.108.123:5000/user/register",
           {
             name: name,
             email: email,

@@ -30,7 +30,7 @@ const Profile1 = () =>{
   const EditDetail = async(e) => {
     e.preventDefault();
     try {
-        const response = await axios.patch('http://localhost:5000/user/editpro', {
+        const response = await axios.patch('http://3.110.108.123:5000/user/editpro', {
             name: name,
             about: about,
             phone: phone,
@@ -191,7 +191,7 @@ const Profile1 = () =>{
                  }
                   try{
                     const user = await fetch(
-                      "http://localhost:5000/user/infor",
+                      "http://3.110.108.123:5000/user/infor",
                       {
                         method: "GET",
                         headers: {
@@ -206,7 +206,7 @@ const Profile1 = () =>{
                     const delete_id = user1._id;
                     console.log(delete_id);
                     const deleteUser = await fetch(
-                      `http://localhost:5000/user/delete/${delete_id}`,{
+                      `http://3.110.108.123:5000/user/delete/${delete_id}`,{
                         method: "DELETE",
                         headers: {
                           "Content-Type": "application/json",

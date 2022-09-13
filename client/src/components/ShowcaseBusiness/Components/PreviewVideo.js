@@ -12,7 +12,7 @@ const PreviewVideo = (props) => {
     
 
     
-    fetch("http://localhost:5000/user/infor", {
+    fetch("http://3.110.108.123:5000/user/infor", {
       method: "GET",
       headers: {
         Authorization: token,

@@ -21,7 +21,7 @@ const Profile3 = () =>{
       navigate("/")
     }
     if(newpass === confirmpass){
-    const response = await axios.patch('http://localhost:5000/user/changepass',{
+    const response = await axios.patch('http://3.110.108.123:5000/user/changepass',{
       oldpass: oldpass,
       newpass:newpass
     },{

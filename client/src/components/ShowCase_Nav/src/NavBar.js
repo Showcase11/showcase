@@ -53,7 +53,7 @@ const NavBar = () => {
     }
     async function Searchfilter() {
       // if(!onlySpaces(search)){
-      const response = await Axios.get("http://localhost:5000/admin/products");
+      const response = await Axios.get("http://3.110.108.123:5000/admin/products");
       const data = response.data.products
       const options = data.map(d => ({
         "value": d.category + " : " + d.brand,
@@ -92,7 +92,7 @@ const NavBar = () => {
     console.log(token)
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
-      fetch("http://localhost:5000/user/infor", {
+      fetch("http://3.110.108.123:5000/user/infor", {
         method: "GET",
         headers: {
           Authorization: token,

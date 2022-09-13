@@ -102,7 +102,7 @@ const PostVideoHandler = (e) => {
 handleUpload(fileMeta);
 async function locate(){
   try{
-    const resp = await axios.get("http://localhost:5000/user/infor",
+    const resp = await axios.get("http://3.110.108.123:5000/user/infor",
         {
           headers: {
             'Authorization':localStorage.getItem('token').replace(/['"]+/g, ""),
@@ -126,7 +126,7 @@ useEffect(()=>{
   async function handleupdate(){
     try{
       const response = await axios.post(
-        "http://localhost:5000/admin/products",
+        "http://3.110.108.123:5000/admin/products",
         {
           link: link,
           companyName: CompanyName + "*" + id,
@@ -176,7 +176,7 @@ useEffect(()=>{
   //     alert("Select File");
   //     return;
   //   }
-  //   fetch("http://localhost:5000/s3Url", {
+  //   fetch("http://3.110.108.123:5000/s3Url", {
   //     method: "POST",
   //     headers: {
   //       "Content-Type": "application/json",
@@ -204,7 +204,7 @@ useEffect(()=>{
   //       props.onModalClose(false);
   //       var token = localStorage.getItem("token");
   //       token = token.replace(/['"]+/g, "");
-  //       fetch("http://localhost:5000/user/infor", {
+  //       fetch("http://3.110.108.123:5000/user/infor", {
   //         method: "GET",
   //         headers: {
   //           "Content-Type": "application/json",
@@ -218,7 +218,7 @@ useEffect(()=>{
   //         .then((data) => {
   //           //
   //           console.log(data,"gpsdone")
-  //           fetch("http://localhost:5000/admin/products", {
+  //           fetch("http://3.110.108.123:5000/admin/products", {
   //             method: "POST",
   //             headers: {
   //               "Content-Type": "application/json",

@@ -28,7 +28,7 @@ const CompleteProfileOTP = () => {
   //   async function SendPhone(){
   //     try{
   //       var t = localStorage.getItem('token').replace(/"/g, '')
-  //       const message = await axios.get('http://localhost:5000/user/getotp', { headers:{ 'Authorization':t}})
+  //       const message = await axios.get('http://3.110.108.123:5000/user/getotp', { headers:{ 'Authorization':t}})
 
   //     } catch (error) {
   //       if (error.response) {
@@ -78,7 +78,7 @@ const CompleteProfileOTP = () => {
     console.log(details)
     let otp = otpref.current.value;
     console.log(otp, details);
-    const res = await fetch("http://localhost:5000/otpcheck", {
+    const res = await fetch("http://3.110.108.123:5000/otpcheck", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -108,7 +108,7 @@ const CompleteProfileOTP = () => {
     }
   
     //     try{
-    //     const response = await axios.post('http://localhost:5000/user/verify', {phone:phone,}, { headers:{ 'Authorization':localStorage.getItem('token').replace(/"/g, '')}})
+    //     const response = await axios.post('http://3.110.108.123:5000/user/verify', {phone:phone,}, { headers:{ 'Authorization':localStorage.getItem('token').replace(/"/g, '')}})
     //     if (response.data){
 
     //     }

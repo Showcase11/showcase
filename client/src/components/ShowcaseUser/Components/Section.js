@@ -16,7 +16,7 @@ const Section = (props) => {
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
       try {
-        const response = await Axios.get('http://localhost:5000/user/getpic',{
+        const response = await Axios.get('http://3.110.108.123:5000/user/getpic',{
           headers:{
             'Authorization':localStorage.getItem('token').replace(/['"]+/g, ""),
           }

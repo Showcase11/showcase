@@ -20,7 +20,7 @@ const Profile1 = () =>{
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
       try {
-        const response = await Axios.get('http://localhost:5000/user/getpic',{
+        const response = await Axios.get('http://3.110.108.123:5000/user/getpic',{
           headers:{
             'Authorization':localStorage.getItem('token').replace(/['"]+/g, ""),
           }
@@ -74,7 +74,7 @@ const Profile1 = () =>{
     try {
       console.log(profile);
       alert("profile")
-        const response = await Axios.patch('http://localhost:5000/user/editpro', {
+        const response = await Axios.patch('http://3.110.108.123:5000/user/editpro', {
             name: name,
             phone: phone,
             about: about,
@@ -240,7 +240,7 @@ const Profile1 = () =>{
                  
                   try{
                     const user = await fetch(
-                      "http://localhost:5000/user/infor",
+                      "http://3.110.108.123:5000/user/infor",
                       {
                         method: "GET",
                         headers: {
@@ -255,7 +255,7 @@ const Profile1 = () =>{
                     const delete_id = user1._id;
                     console.log(delete_id);
                     const deleteUser = await fetch(
-                      `http://localhost:5000/user/delete/${delete_id}`,{
+                      `http://3.110.108.123:5000/user/delete/${delete_id}`,{
                         method: "DELETE",
                         headers: {
                           "Content-Type": "application/json",
