@@ -3,7 +3,7 @@ import styles from "./NavBar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
-import { Snackbar, Alert, Button, Box } from "@mui/material";
+import { Snackbar, Alert, Button, Box, Typography } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,6 +12,7 @@ import Axios from "axios"
 import HyperModal from 'react-hyper-modal';
 import ShowCase from "./ShowCase.png";
 import zIndex from "@mui/material/styles/zIndex";
+import MapLandingPage from "../../ShowCase_LandingPage/Components/MapLandingPage";
 const NavBar = () => {
   const data = [
     {
@@ -41,6 +42,9 @@ const NavBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [Login, setLogin] = useState("Login");
   const [search, setSearch] = useState("")
+  const [error, setError] = useState(false)
+  const [gpsLanding, setgpsLanding] = useState(false);
+  const [location, setLocation] = useState({})
   const ope = Boolean(anchorEl);
 
   useEffect(() => {
@@ -53,7 +57,9 @@ const NavBar = () => {
       const data = response.data.products
       const options = data.map(d => ({
         "value": d.category + " : " + d.brand,
-        "label": d.category + " : " + d.brand
+        "label": d.category + " : " + d.brand,
+        'lat': d.latitude,
+        'lng': d.longitude
       }))
       setSelectOption(options);
       // console.log(options);
@@ -199,8 +205,16 @@ const NavBar = () => {
         <div className={styles.icons}>
           <div style={{ display: display1, width: "300px" }}>
             <Select options={selectOption} value={search} onChange={(e) => {
+             /*  setSearch(e.value)
+              setOpenModal(true) */
               setSearch(e.value)
               setOpenModal(true)
+              setLocation({
+                lat: e.lat,
+                lng: e.lng
+              })
+              console.log(e)
+              setCategory(e.value.split('*'))
             }}
             />
           </div>
@@ -285,7 +299,7 @@ const NavBar = () => {
           isOpen={openModal}
           requestClose={() => setOpenModal(false)}
         >
-          <Box
+          {/*  <Box
             sx={{
               display: "flex",
               justifyContent: 'center',
@@ -297,12 +311,139 @@ const NavBar = () => {
             }}
           >
             You have selected this option{search}
-          </Box>
+          </Box> */}
 
+          <Box
+            sx={{
+              padding: '20px',
+              width:'100%',
+              height:'85%',
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: 'start',
+                alignItems: "start",
+                height: '100%',
+                fontSize: '17px',
+                zIndex: 1000,
+
+                marginTop: '10px'
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="p"
+                  component='p'
+                  marginBottom={'20px'}
+                >
+                  Category{category[0]}
+                </Typography>
+                <Typography
+                  variant="p"
+                  component='p'
+                >
+                  Phone : {category[1] ? `+${category[1]}` : 'Phone number not available'}
+                </Typography>
+
+              </Box>
+            </Box>
+
+            <Box
+            marginBottom={'150px'}
+              sx={{
+                display: 'flex',
+                gap: 2,
+               
+              
+
+              }}
+            >
+              <button
+                onClick={() => {
+                  if (category[1] === undefined) {
+                    setError(true)
+                  } else {
+                    window.open(
+                      `https://wa.me/${category[1]}`
+                    );
+                  }
+                }}
+                style={{
+                  height: "45px",
+                  width: "100px",
+                  backgroundColor: "#007bff",
+                  outline: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: '#fff',
+                  borderRadius: '10px'
+                }}
+              >
+                Whatsapp
+              </button>
+              <button
+                onClick={() => {
+                  setgpsLanding(true);
+                }}
+                style={{
+                  height: "45px",
+                  width: "100px",
+                  backgroundColor: "#007bff",
+                  outline: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: '#fff',
+                  borderRadius: '10px'
+                }}
+              >
+                GPS
+              </button>
+            </Box>
+
+          </Box>
         </HyperModal>
       }
 
+      {
+        gpsLanding && (
+          <MapLandingPage
+            onclosegps={setgpsLanding}
+            ongpsData={{
+              lat: location.lat,
+              lng: location.lng,
+            }}
+          />
+        )
 
+      }
+
+      {/* alert  */}
+      {
+
+        <Snackbar
+          open={error}
+          autoHideDuration={4000}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          onClose={() => {
+            setError(false);
+          }}
+        >
+          <Alert
+            sx={{
+              fontSize: "1rem",
+              width: "500px",
+              color: "white",
+            }}
+
+            icon={<ErrorIcon />}
+            severity="error"
+            variant="filled"
+          >
+            Phone Number Is Not Available
+          </Alert>
+        </Snackbar>}
     </>
   );
 };
