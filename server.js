@@ -119,7 +119,7 @@ app.patch("/updatePass", async(req, res) => {
   });
 });
 
-// otp send api 
+// otp send api here
 app.post("/onetimepassword", (req, res) => {
   let { country, phone } = req.body;
   console.log(req.body)
