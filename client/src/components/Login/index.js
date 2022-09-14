@@ -19,6 +19,7 @@ const Login = () => {
   const navigate = useNavigate();
   let response;
   // client id 
+  // 52112230380-d7dabeabc5rmse44qsg6hqtiudbqp9go.apps.googleusercontent.com
   const clientId = process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
   // google auth 
   useEffect(() => {

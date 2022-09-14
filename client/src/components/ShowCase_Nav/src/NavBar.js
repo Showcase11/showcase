@@ -55,6 +55,7 @@ const NavBar = () => {
       // if(!onlySpaces(search)){
       const response = await Axios.get("http://3.110.108.123:5000/admin/products");
       const data = response.data.products
+      console.log(data)
       const options = data.map(d => ({
         "value": d.category + " : " + d.brand,
         "label": d.category + " : " + d.brand,
@@ -62,7 +63,7 @@ const NavBar = () => {
         'lng': d.longitude
       }))
       setSelectOption(options);
-      // console.log(options);
+      console.log(response);
       // }
     }
     Searchfilter();
