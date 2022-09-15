@@ -21,7 +21,7 @@ const s3 = new aws.S3({
   region: "us-east-1",
   signatureVersion: "v4",
 });
-
+// cors 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
