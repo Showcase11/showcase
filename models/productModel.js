@@ -1,6 +1,7 @@
 const { text } = require('express')
 const mongoose = require('mongoose')
 
+// schema 
 const BusSchema = new mongoose.Schema({
     
     link: {
