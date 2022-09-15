@@ -300,20 +300,7 @@ const NavBar = () => {
           isOpen={openModal}
           requestClose={() => setOpenModal(false)}
         >
-          {/*  <Box
-            sx={{
-              display: "flex",
-              justifyContent: 'center',
-              alignItems: "center",
-              height: '100%',
-              fontSize: '25px',
-              fontWeight: 'bold',
-              zIndex:1000
-            }}
-          >
-            You have selected this option{search}
-          </Box> */}
-
+         
           <Box
             sx={{
               padding: '20px',

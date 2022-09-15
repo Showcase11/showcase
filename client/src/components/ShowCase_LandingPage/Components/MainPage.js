@@ -61,6 +61,7 @@ const MainPage = () => {
         });
         console.log(data, "op2");
         setVids(a);
+        console.log(data)
       });
   }, []);
   const SavedHandler = async () => {
@@ -100,7 +101,7 @@ const MainPage = () => {
             longitude: Vids[slider].longitude,
           }),
         });
-        // console.log(ps);
+        console.log(Vids);
         const c = await ps.json();
         console.log(c);
         if (c.message == 0) {

@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Subscription.module.css";
 const Subscription = () => {
   const navigate = useNavigate();
+  
+  console.log(window)
+
   return (
     <div className={styles.subscription}>
       <div className="container">
@@ -59,6 +62,7 @@ const Subscription = () => {
                   </select>
                 </div>
                 <div className={`form-group ${styles.div2}`}>
+
                   <button
                     type="submit"
                     className={styles.savebtn}
@@ -66,6 +70,7 @@ const Subscription = () => {
                   >
                     Continue
                   </button>
+
                 </div>
                 <div className={`form-group ${styles.div2}`}>
                   <p className={styles.p1}>
