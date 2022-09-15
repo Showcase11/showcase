@@ -70,6 +70,7 @@ const RegisterPersonal = () => {
             password: password,
           }
         );
+
         setEmail("");
         setName("");
         setPassword("");

@@ -10,6 +10,8 @@ import axios from "axios";
 
 
 const RegisterBusiness = () => {
+
+  
   const [ErrorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -110,7 +112,7 @@ const RegisterBusiness = () => {
         setName("");
         setPassword("");
         setCheck(false);
-
+          console.log(response)
         localStorage.setItem(
           "token",
           JSON.stringify(response.data.accesstoken)
