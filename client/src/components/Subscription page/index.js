@@ -66,6 +66,7 @@ const Subscription = () => {
                   >
                     Continue
                   </button>
+
                 </div>
                 <div className={`form-group ${styles.div2}`}>
                   <p className={styles.p1}>
