@@ -36,7 +36,7 @@ const Login = () => {
       "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
     );
 
-    const userexist = await fetch("http://localhost:5000/exist", {
+    const userexist = await fetch("http://3.110.108.123:5000/exist", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const Login = () => {
       console.log('click')
       try {
 
-        const data = await axios.post("http://localhost:5000/user/login", {
+        const data = await axios.post("http://3.110.108.123:5000/user/login", {
           email: email,
           password: password,
           google:'google'
@@ -69,7 +69,7 @@ const Login = () => {
         localStorage.setItem("val", JSON.stringify(response.data.val));
         let token = localStorage.getItem("token");
         token = token.replace(/['"]+/g, "");
-        const roles = await fetch("http://localhost:5000/user/infor", {
+        const roles = await fetch("http://3.110.108.123:5000/user/infor", {
           method: "GET",
           headers: {
             Authorization: token,
@@ -107,7 +107,7 @@ const Login = () => {
   const responseGoogle = async (response) => {
     // set email 
     console.log(response)
-    const data = await axios.post("http://localhost:5000/user/login", {
+    const data = await axios.post("http://3.110.108.123:5000/user/login", {
       email:response?.profileObj?.email,
       google: 'google'
     });
@@ -122,7 +122,7 @@ const Login = () => {
     let token = localStorage.getItem("token");
     // verify token api 
     token = token.replace(/['"]+/g, "");
-    const roles = await fetch("http://localhost:5000/user/infor", {
+    const roles = await fetch("http://3.110.108.123:5000/user/infor", {
       method: "GET",
       headers: {
         Authorization: token,

@@ -101,7 +101,7 @@ const RegisterPersonal = () => {
     // console.log(res.profileObj.email)
     try {
       const response = await axios.post(
-        "http://localhost:5000/user/register",
+        "http://3.110.108.123:5000/user/register",
         {
           name: name,
           email: email,
