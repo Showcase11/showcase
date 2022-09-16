@@ -9,18 +9,20 @@ const axios = require('axios');
 const userCtrl = {
 
     register: async (req, res) => {
-        
+
         let newUser;
 
         try {
-            
-            const { name, email, role, password, google } = req.body;
 
+            const { name, email, role, password, google } = req.body;
+            console.log(req.body, 'from register body')
             // verify user for only google authentication 
             if (google) {
-                const result=await Users.findOneAndUpdate({ email }, { $set: { email } }, { upsert: true, setDefaultsOnInsert: true })
-                newUser=result
-                
+                if (email) {
+                    const result = await Users.findOneAndUpdate({ email }, { $set: { email, name, role } }, { upsert: true, setDefaultsOnInsert: true })
+                    newUser = result
+                    console.log(newUser, 'from register')
+                }
             } else {
 
                 const user = await Users.findOne({ email })
@@ -30,8 +32,8 @@ const userCtrl = {
 
                 // Password Encryption
                 const passwordHash = await bcrypt.hash(password, 10)
-                
-                 newUser = new Users({
+
+                newUser = new Users({
                     name, email, role, password: passwordHash
                 })
 
@@ -53,38 +55,58 @@ const userCtrl = {
             console.log(accesstoken)
             console.log(newUser)
             res.json({ accesstoken })
-            
+
         } catch (err) {
-            const news='fro'
+            const news = 'fro'
             console.log(err)
-            return res.status(500).json({news, msg: err.message })
+            return res.status(500).json({ news, msg: err.message })
         }
     },
 
 
     login: async (req, res) => {
         try {
-         
-            const { email, password } = req.body;
-            const user = await Users.findOne({ email })
-          
-            if (!user) return res.status(400).json({ msg: "User does not exist." })
+            let userrole;
+            let user;
+            let accesstoken;
+            let refreshtoken
 
-            const isMatch = await bcrypt.compare(password, user.password)
-            // console.log('from pass',isMatch)
-            if (!isMatch) return res.status(400).json({ msg: "Incorrect password." })
 
-            // If login success , create access token and refresh token
-            const accesstoken = createAccessToken({ id: user._id })
-            const refreshtoken = createRefreshToken({ id: user._id })
-            const userrole = await Users.findById(user._id).select('role')
+            const { email, password, google } = req.body;
+            console.log(req.body, 'from login')
+            if (google) {
+                if (email) {
+                    const user = await Users.findOne({ email })
+                    accesstoken = createAccessToken({ id: user._id })
+                    refreshtoken = createRefreshToken({ id: user._id })
+                    userrole = await Users.findById(user._id).select('role')
+                    console.log(user)
+                }
+            } else {
+
+                user = await Users.findOne({ email })
+                if (!user) return res.status(400).json({ msg: "User does not exist." })
+
+                const isMatch = await bcrypt.compare(password, user.password)
+                console.log('from pass', user)
+                if (!isMatch) return res.status(400).json({ msg: "Incorrect password." })
+                // If login success , create access token and refresh token
+                accesstoken = createAccessToken({ id: user._id })
+                refreshtoken = createRefreshToken({ id: user._id })
+                userrole = await Users.findById(user._id).select('role')
+                console.log(userrole)
+            }
+
+
+
             const val = userrole.role;
+            console.log(userrole)
             res.cookie('refreshtoken', refreshtoken, {
                 httpOnly: true,
                 path: '/user/refresh_token',
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
             })
-         
+
             res.json({ accesstoken, val })
 
         } catch (err) {
@@ -335,7 +357,7 @@ const userCtrl = {
 
 }
 const createAccessToken = (user) => {
-    console.log('from access',user)
+    console.log('from access', user)
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
 }
 const createRefreshToken = (user) => {

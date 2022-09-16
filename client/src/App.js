@@ -42,9 +42,9 @@ function App() {
           <Route path="changePassword" element={<ChangePassword />} />
           <Route path="forgotPassword" element={<ForgotPassword />} />
         </Route>
+
+
         {/* Protected Routes Business Users */}
-
-
         <Route path="business">
           <Route path="register" element={<RegisterBusiness />} />
           <Route path="cyp2" element={<CYP2 />} />

@@ -28,7 +28,6 @@ const App = () => {
       token = token.replace(/['"]+/g, "");
     }
 
-    console.log('from bussiness',token);
     fetch("http://3.110.108.123:5000/user/infor", {
       method: "GET",
       headers: {

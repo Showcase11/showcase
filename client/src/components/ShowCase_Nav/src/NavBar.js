@@ -70,6 +70,7 @@ const NavBar = () => {
 
   useEffect(() => {
     let token = localStorage.getItem("token");
+    console.log(token)
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
       setLogin("Logout")

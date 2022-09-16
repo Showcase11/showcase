@@ -28,8 +28,11 @@ app.use(cors({
   origin:[
     'http://localhost:3000',
     'http://localhost:5000',
+    'http://3.110.108.123:3000/',
     'http://3.110.108.123:5000/',
-    
+    'http://www.showcaseurbusiness.com/',
+    'https://www.showcaseurbusiness.com/',
+    'http://3.110.108.123/'
   ],
   credentials:true,
   optionSuccessStatus:200

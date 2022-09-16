@@ -1,5 +1,5 @@
 import React from "react";
-import {GoogleLogin} from 'react-google-login'
+import { GoogleLogin } from 'react-google-login'
 import styles from "./registerpersonal.module.css";
 import { useState } from "react";
 import { Snackbar, Alert, Button } from "@mui/material";
@@ -8,17 +8,15 @@ import ErrorIcon from "@mui/icons-material/Error";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const clientId = '52112230380-d7dabeabc5rmse44qsg6hqtiudbqp9go.apps.googleusercontent.com';
-
+// client id 
+const clientId = process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
+console.log(clientId)
 const RegisterPersonal = () => {
 
-  const onSuccess = (res) => {
-    console.log('[Login Success] currentUser:',res.profileObj);
-    
-  };
+
 
   const onFailure = (res) => {
-    console.log('[Login Failed] res:',res);
+    console.log('[Login Failed] res:', res);
   };
 
   const [ErrorMessage, setErrorMessage] = useState("");
@@ -37,6 +35,7 @@ const RegisterPersonal = () => {
       "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
     );
     const userexist = await fetch("http://3.110.108.123:5000/exist", {
+
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +45,7 @@ const RegisterPersonal = () => {
       }),
     });
     const userExistData = await userexist.json();
-    
+
     if (!regex.test(email)) {
       setOpen(true);
       setErrorMessage("Invalid Email Address");
@@ -80,6 +79,7 @@ const RegisterPersonal = () => {
           "token",
           JSON.stringify(response.data.accesstoken)
         );
+        // localStorage.removeItem('token')
         navigate("/business/cyp2");
       } catch (error) {
         if (error.response) {
@@ -92,11 +92,47 @@ const RegisterPersonal = () => {
     }
   };
 
+
+  const onSuccess = async (res) => {
+    console.log('[Login Success] currentUser:', res.profileObj);
+    console.log(res)
+    setEmail(res.profileObj.email)
+    setName(res.profileObj.name)
+    // console.log(res.profileObj.email)
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/user/register",
+        {
+          name: name,
+          email: email,
+          role: 0,
+          google:'google'
+        }
+      );
+
+      setEmail("");
+      setName("");
+      setPassword("");
+      setCheck(false);
+
+      localStorage.setItem(
+        "token",
+        JSON.stringify(response.data.accesstoken)
+      );
+      navigate("/business/cyp2");
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+
+  };
+
   return (
     <div className={styles.RP}>
       <div class="col-2">
-                <img src="/blue bubble (2).png" style={{float:"left", marginTop: "95px", marginLeft:"85px"}} />
-            </div>
+        <img src="/blue bubble (2).png" style={{ float: "left", marginTop: "95px", marginLeft: "85px" }} />
+      </div>
       <form onSubmit={RegisterIn} className="container">
         <div className="form-group">
           <a
@@ -207,13 +243,13 @@ const RegisterPersonal = () => {
             Register with Google
           </button> */}
           <GoogleLogin
-          clientId={clientId}
-          buttonText="Register with Gooigle"
-          onSuccess={onSuccess}
-          onFailure={onFailure}
-          cookiePolicy={'single_host_origin'}
-          style={{marginTop:'1px'}}
-          isSignedIn={true}
+            clientId={clientId}
+            buttonText="Register with Gooigle"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            cookiePolicy={'single_host_origin'}
+            style={{ marginTop: '1px' }}
+            isSignedIn={true}
 
           />
         </div>

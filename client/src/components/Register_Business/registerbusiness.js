@@ -11,7 +11,7 @@ import axios from "axios";
 
 const RegisterBusiness = () => {
 
-  
+
   const [ErrorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -97,6 +97,8 @@ const RegisterBusiness = () => {
         );
     }
     else if (userExistData.exist==0 && regex.test(email) && regxpass.test(password)) {
+      debugger
+      console.log('I am from register business')
       try {
         
         const response = await axios.post(
