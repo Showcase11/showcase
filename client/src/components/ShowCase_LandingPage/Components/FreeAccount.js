@@ -60,7 +60,7 @@ const FreeAccount = () => {
       trigger: '3',
     }, {
       id: '3',
-      message: " hi {previousValue}, how can I help you?",
+      message: " Hi {previousValue}, Do you have any account?",
       trigger: 4
     },
     /*  {

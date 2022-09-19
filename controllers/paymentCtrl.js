@@ -21,7 +21,7 @@ const paymentCtrl = {
             };
 
             const order = await instance.orders.create(options);
-            res.status(200).send({
+            res.send({
                 status: 200,
                 message: 'Success',
                 data: order
@@ -102,6 +102,7 @@ const paymentCtrl = {
         } catch (error) {
             console.log(error.message)
             res.status(400).send({
+                error:error?.message,
                 message:'Failed to load'
             })
         }

@@ -15,10 +15,10 @@ import zIndex from "@mui/material/styles/zIndex";
 import MapLandingPage from "../../ShowCase_LandingPage/Components/MapLandingPage";
 import { GoogleLogout } from 'react-google-login';
 import { UseContext } from "../../../App";
-const NavBar=React.memo(function Nav  () {
-  const loader=React.useContext(UseContext)
-  const {load}=loader || {}
-  
+const NavBar = React.memo(function Nav() {
+  const loader = React.useContext(UseContext)
+  const { load } = loader || {}
+
   const data = [
     {
       value: 1,
@@ -76,26 +76,15 @@ const NavBar=React.memo(function Nav  () {
   }, [])
 
 
-  /*  useEffect(() => {
-     let timerID = setInterval(() => tick(), 3000);
- 
-     return () => clearInterval(timerID);
-   });
- 
-   function tick() {
-     setMyTime(new Date());
-   }
-  */
-
   useEffect(() => {
 
     let token = localStorage.getItem("token")
     let timer
-    if (load) {
-      window.clearTimeout(timer)
-      timer= setTimeout(()=>{
+    if (load || token) {
+      timer = setTimeout(() => {
         setRefresh(!refresh)
-      },2000)
+      }, 2000)
+      // window.clearTimeout(timer)
     }
 
     if (token !== undefined && token !== null) {
@@ -106,11 +95,10 @@ const NavBar=React.memo(function Nav  () {
     }
     else {
       setLogin("Login")
-
       console.log('no token ')
     }
 
-  }, [Login])
+  }, [Login, load, refresh])
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -156,7 +144,7 @@ const NavBar=React.memo(function Nav  () {
     setAnchorEl(null);
   };
 
-  const googleLogOut=(res)=>{
+  const googleLogOut = (res) => {
     console.log(res)
   }
 
@@ -306,7 +294,7 @@ const NavBar=React.memo(function Nav  () {
             <MenuItem onClick={handleLogout}>{Login}</MenuItem>
           </Menu>
           <div style={{
-            display:'none'
+            display: 'none'
           }}>
             <GoogleLogout
               clientId={clientId}
@@ -501,4 +489,4 @@ const NavBar=React.memo(function Nav  () {
 })
 
 // export default NavBar;
-export default  NavBar
+export default NavBar

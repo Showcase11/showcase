@@ -42,7 +42,7 @@ const Subscription = () => {
                 </div>
                 {/* <hr /> */}
 
-                <div className={`form-group ${styles.div2}`}>
+               {/*  <div className={`form-group ${styles.div2}`}>
                   <label for="subscripition" className={styles.label3}>
                     <b>Subscripition Plans</b>
                   </label>
@@ -57,7 +57,7 @@ const Subscription = () => {
                     <option value="#/">Gold 10$ Per Month</option>
                     <option value="#/">Platinum 15$ Per Month</option>
                   </select>
-                </div>
+                </div> */}
                 <div className={`form-group ${styles.div2}`}>
                   <button
                     type="submit"
