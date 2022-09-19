@@ -307,7 +307,7 @@ const RegisterBusiness = () => {
           </button> */}
            <GoogleLogin
             clientId={clientId}
-            buttonText="Register with Gooigle"
+            buttonText="Register with Google"
             onSuccess={onSuccess}
             onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
