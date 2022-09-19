@@ -1,4 +1,4 @@
-import { Box, Grid,  Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -6,8 +6,21 @@ import logo from '../../assets/logo.jpg'
 
 import styles from './Payment.module.css'
 import PaymentForm from './PaymentForm';
+import { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 const PaymentFrontend = () => {
 
+    const [users, setUsers] = useState(null)
+    const navigate = useNavigate()
+    const token = localStorage.getItem('token')
+    console.log(token)
+    useEffect(() => {
+        if (!token) {
+            console.log('click')
+            return navigate('/login')
+        }
+    }, [navigate,token])
     return (
         <Container
             sx={{
@@ -185,7 +198,9 @@ const PaymentFrontend = () => {
                             xs={6}
                             background='red'
                         >
-                           <PaymentForm/>
+                            <PaymentForm
+                                setUsers={setUsers}
+                            />
                         </Grid>
                     </Grid>
                 </Box>

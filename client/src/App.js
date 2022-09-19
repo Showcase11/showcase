@@ -79,7 +79,7 @@ function App() {
           </Route>
           {/* Common Routes */}
           <Route path="subs" element={<Subscription />} />
-          <Route path="subs/payment" element={<PaymentFrontend />} />
+          <Route path="/subs/payment" element={<PaymentFrontend />} />
           <Route path="reset" element={<Reset />} />
           <Route path="r" element={<Reset_password_by_email_address />} />
 

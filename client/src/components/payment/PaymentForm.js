@@ -9,7 +9,7 @@ import useUser from '../hooks/useUser';
 import styles from './Payment.module.css'
 
 
-const PaymentForm = () => {
+const PaymentForm = ({setUsers}) => {
 
     // hooks 
 
@@ -48,6 +48,7 @@ const PaymentForm = () => {
                 })
                 .then((data) => {
                     setUser(data)
+                    setUsers(data)
                     setEmail(data?.email)
                     setPhone(data?.country + data?.phone)
                 })
@@ -287,7 +288,7 @@ const PaymentForm = () => {
                                                 fontSize: '14px'
                                             }}
                                         >
-                                            Silver
+                                            Gold
                                             <span style={{
                                                 fontSize: '13px',
                                                 display: 'block',
@@ -339,7 +340,7 @@ const PaymentForm = () => {
                                                 fontSize: '14px'
                                             }}
                                         >
-                                            Silver
+                                            Platinum
                                             <span style={{
                                                 fontSize: '13px',
                                                 display: 'block',
