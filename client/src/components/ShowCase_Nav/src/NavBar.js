@@ -13,7 +13,12 @@ import HyperModal from 'react-hyper-modal';
 import ShowCase from "./ShowCase.png";
 import zIndex from "@mui/material/styles/zIndex";
 import MapLandingPage from "../../ShowCase_LandingPage/Components/MapLandingPage";
-const NavBar = () => {
+import { GoogleLogout } from 'react-google-login';
+import { UseContext } from "../../../App";
+const NavBar=React.memo(function Nav  () {
+  const loader=React.useContext(UseContext)
+  const {load}=loader || {}
+  
   const data = [
     {
       value: 1,
@@ -45,8 +50,10 @@ const NavBar = () => {
   const [error, setError] = useState(false)
   const [gpsLanding, setgpsLanding] = useState(false);
   const [location, setLocation] = useState({})
+  const [refresh, setRefresh] = useState(false)
   const ope = Boolean(anchorEl);
-
+  const [myTime, setMyTime] = useState(new Date());
+  const clientId = process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
   useEffect(() => {
     function onlySpaces(str) {
       return str.trim().length === 0;
@@ -68,18 +75,42 @@ const NavBar = () => {
     Searchfilter();
   }, [])
 
+
+  /*  useEffect(() => {
+     let timerID = setInterval(() => tick(), 3000);
+ 
+     return () => clearInterval(timerID);
+   });
+ 
+   function tick() {
+     setMyTime(new Date());
+   }
+  */
+
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    console.log(token)
+
+    let token = localStorage.getItem("token")
+    let timer
+    if (load) {
+      window.clearTimeout(timer)
+      timer= setTimeout(()=>{
+        setRefresh(!refresh)
+      },2000)
+    }
+
     if (token !== undefined && token !== null) {
+      console.log('logout set')
       token = token.replace(/['"]+/g, "");
       setLogin("Logout")
+      setRefresh(!refresh)
     }
     else {
       setLogin("Login")
+
+      console.log('no token ')
     }
 
-  }, [])
+  }, [Login])
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -124,10 +155,20 @@ const NavBar = () => {
     }
     setAnchorEl(null);
   };
+
+  const googleLogOut=(res)=>{
+    console.log(res)
+  }
+
+
   const handleLogout = () => {
+    googleLogOut()
     let token = localStorage.getItem("token");
     if (token !== undefined && token !== null) {
+      console.log('click')
+      setRefresh(!refresh)
       localStorage.removeItem("token");
+      setLogin('Logout')
       navigate("/");
     }
     else {
@@ -137,7 +178,7 @@ const NavBar = () => {
     setAnchorEl(null);
   };
 
-  console.log('from searchbar', search)
+  // console.log('from searchbar', search)
 
 
   return (
@@ -206,8 +247,8 @@ const NavBar = () => {
         <div className={styles.icons}>
           <div style={{ display: display1, width: "300px" }}>
             <Select options={selectOption} value={search} onChange={(e) => {
-             /*  setSearch(e.value)
-              setOpenModal(true) */
+              /*  setSearch(e.value)
+               setOpenModal(true) */
               setSearch(e.value)
               setOpenModal(true)
               setLocation({
@@ -264,6 +305,16 @@ const NavBar = () => {
             <MenuItem onClick={handleDashboard}>My account</MenuItem>
             <MenuItem onClick={handleLogout}>{Login}</MenuItem>
           </Menu>
+          <div style={{
+            display:'none'
+          }}>
+            <GoogleLogout
+              clientId={clientId}
+              buttonText="Logout"
+              onLogoutSuccess={googleLogOut}
+            >
+            </GoogleLogout>
+          </div>
         </div>
       </div>
 
@@ -317,8 +368,8 @@ const NavBar = () => {
           <Box
             sx={{
               padding: '20px',
-              width:'100%',
-              height:'85%',
+              width: '100%',
+              height: '85%',
             }}
           >
             <Box
@@ -352,12 +403,12 @@ const NavBar = () => {
             </Box>
 
             <Box
-            marginBottom={'150px'}
+              marginBottom={'150px'}
               sx={{
                 display: 'flex',
                 gap: 2,
-               
-              
+
+
 
               }}
             >
@@ -447,6 +498,7 @@ const NavBar = () => {
         </Snackbar>}
     </>
   );
-};
+})
 
-export default NavBar;
+// export default NavBar;
+export default  NavBar

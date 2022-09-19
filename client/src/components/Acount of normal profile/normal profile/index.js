@@ -1,83 +1,95 @@
 import React, { useEffect, useState } from "react";
 import styles from "./normal_profile.module.css";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Axios from 'axios';
+import Loading from "../../shared/Loading";
 const Normal_profile = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const [about, setAbout] = useState("");
   const [profile, setProfile] = useState("");
   const [newname, setNewName] = useState("");
   const [url, setUrl] = useState("");
-
-  useEffect(()=>{
-    async function Underuseffect(){
-    let token = localStorage.getItem("token");
-    if (token !== undefined && token !== null) {
-      token = token.replace(/['"]+/g, "");
-      try {
-        const response = await Axios.get('http://3.110.108.123:5000/user/getpic',{
-          headers:{
-            'Authorization':localStorage.getItem('token').replace(/['"]+/g, ""),
-          }
-        });
-        setProfile(response.data.profile);
-
-      }
-        catch(err){
+  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    async function Underuseffect() {
+      let token = localStorage.getItem("token");
+      if (token !== undefined && token !== null) {
+        token = token.replace(/['"]+/g, "");
+        try {
+          const response = await Axios.get('http://3.110.108.123:5000/user/getpic', {
+            headers: {
+              'Authorization': localStorage.getItem('token').replace(/['"]+/g, ""),
+            }
+          });
+          setProfile(response.data.profile);
+          console.log(response)
+        }
+        catch (err) {
           console.log(err)
         }
+      }
+      else {
+        alert("Login please");
+      }
     }
-    else{
-      alert("Login please");
-    }
-  }
-  Underuseffect();
-    
+    Underuseffect();
+
   });
 
-  const handleimg = async(files) => {    
+  if (loading) return <Loading />
+  const handleimg = async (files) => {
     console.log(files[0]);
-    try{
+    try {
       const formData = new FormData();
-      formData.append("file",files[0]);
-      formData.append("upload_preset","a7zbcbwb");
+      formData.append("file", files[0]);
+      formData.append("upload_preset", "a7zbcbwb");
       const res = await Axios.post("https://api.cloudinary.com/v1_1/dww5gv28l/image/upload", formData)
-      console.log(res.data.url)  
+      console.log(res.data, 'img response')
       setProfile(res.data.url);
-      alert("")
+      localStorage.setItem('img', JSON.stringify({ img: res.data.url }))
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
+    // alert(profile)
   };
-
-
-  const editentry = async() =>{
+  console.log(profile)
+  const editentry = async (e) => {
+    e.preventDefault()
+    setLoading(true)
     let token = localStorage.getItem("token");
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
     }
-    try{
+    try {
+      console.log(profile)
+      const pImg = JSON.parse(localStorage.getItem('img'))
+
       const response = await Axios.patch("http://3.110.108.123:5000/user/personal", {
-        
         about: about,
-        profile:profile,
+        profile: pImg?.img,
         name: newname
-      },{
-        headers:{
-          'Authorization':localStorage.getItem('token').replace(/['"]+/g, "")
+      },
+        {
+          headers: {
+            'Authorization': localStorage.getItem('token').replace(/['"]+/g, "")
+          }
         }
-      }
       );
       setAbout("")
       setProfile("")
       setNewName("")
-
+      setLoading(false)
+      localStorage.removeItem('img')
+      if (response?.status === 200) {
+        navigate('/dashboarduser')
+      }
       console.log(response);
       // setUrl("New");
-      alert(response);
+      // alert(response);
     }
-    catch(e){
+    catch (e) {
+      setLoading(false)
       console.log(e);
       alert(e);
     }
@@ -88,7 +100,9 @@ const Normal_profile = () => {
         <div className="row">
           <div className="col-4">
             <div className={styles.container1}>
-              <form className="container" >
+              <form
+                onSubmit={editentry}
+                className="container" >
                 <div className="form-group">
                   <a
                     onClick={() => {
@@ -123,16 +137,12 @@ const Normal_profile = () => {
                 </div>
                 <br />
                 <div className={`form-group ${styles.div1}`}>
-                  <img
-                    src={profile}
-                    ait="Photo"
-                    width="200px;"
-                    height="140px;"
+                  <img src={profile} width="200px;" height="140px;" alt=""
                   />
                 </div>
                 <br />
                 <div className={`form-group ${styles.div2}`}>
-              <input type="file"  onChange= {(e)=> handleimg(e.target.files)}></input>
+                  <input type="file" onChange={(e) => handleimg(e.target.files)}></input>
 
                 </div>
 
@@ -142,8 +152,8 @@ const Normal_profile = () => {
                   </p>
                 </div>
                 <div className="form-group">
-                  <input type="text" placeholder="User name" required  value={newname}
-            onChange={(e) => setNewName(e.target.value)} />
+                  <input type="text" placeholder="User name" required value={newname}
+                    onChange={(e) => setNewName(e.target.value)} />
                 </div>
                 <br />
                 <div className="form-group">
@@ -151,8 +161,8 @@ const Normal_profile = () => {
                     <b>About Me</b>
                   </label>
                   <br />
-                  <textarea id="about-me" name="about me"  value={about}
-            onChange={(e) => setAbout(e.target.value)} > </textarea>
+                  <textarea id="about-me" name="about me" value={about}
+                    onChange={(e) => setAbout(e.target.value)} > </textarea>
                 </div>
 
                 <div className="form-group">
@@ -164,40 +174,41 @@ const Normal_profile = () => {
                       let token = localStorage.getItem("token");
                       if (token !== undefined && token !== null) {
                         token = token.replace(/['"]+/g, "");
-                      
-                      try {
-                        const user = await fetch(
-                          "http://3.110.108.123:5000/user/infor",
-                          {
-                            method: "GET",
-                            headers: {
-                              Authorization: token,
-                              Accept: "application/json",
-                              "Content-Type": "application/json",
-                            },
-                          }
-                        );
-                        const user1 = await user.json();
 
-                        const delete_id = user1._id;
-                        console.log(delete_id);
-                        const deleteUser = await fetch(
-                          `http://3.110.108.123:5000/user/delete/${delete_id}`,
-                          {
-                            method: "DELETE",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                          }
-                        );
-                        const deleteUser1 = await deleteUser.json();
-                        console.log("Deleted account", deleteUser1);
-                        localStorage.removeItem("token");
-                        navigate("/");
-                      } catch (err) {
-                        console.log(err, "error in deleting account");
-                      }}
-                      else{
+                        try {
+                          const user = await fetch(
+                            "http://3.110.108.123:5000/user/infor",
+                            {
+                              method: "GET",
+                              headers: {
+                                Authorization: token,
+                                Accept: "application/json",
+                                "Content-Type": "application/json",
+                              },
+                            }
+                          );
+                          const user1 = await user.json();
+
+                          const delete_id = user1._id;
+                          console.log(delete_id);
+                          const deleteUser = await fetch(
+                            `http://3.110.108.123:5000/user/delete/${delete_id}`,
+                            {
+                              method: "DELETE",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                            }
+                          );
+                          const deleteUser1 = await deleteUser.json();
+                          console.log("Deleted account", deleteUser1);
+                          localStorage.removeItem("token");
+                          navigate("/");
+                        } catch (err) {
+                          console.log(err, "error in deleting account");
+                        }
+                      }
+                      else {
                         navigate("/");
                       }
                     }}
@@ -208,7 +219,7 @@ const Normal_profile = () => {
                   </button>
                 </div>
                 <div className="form-group">
-                  <button onClick={editentry}  className={styles.savebtn}>
+                  <button /* onClick={editentry} */ className={styles.savebtn}>
                     Save
                   </button>
                 </div>

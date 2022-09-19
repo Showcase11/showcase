@@ -1,3 +1,4 @@
+import React from 'react'
 import { Route, Routes } from "react-router-dom";
 import ForgotPassword from './components/ForgotPassword/Forgotpassword';
 import Landing from "./components/ShowCase_LandingPage/App";
@@ -22,51 +23,71 @@ import EditPage from "./components/EditPage/index";
 import NewFooter from "./components/Footer/index";
 import NormalProfile from "./components/Acount of normal profile/normal profile";
 import ChangePassword from "./components/Acount of normal profile/normal profile.1";
+import { useState } from "react";
+import PaymentFrontend from './components/payment/PaymentFrontend';
+
+export const UseContext = React.createContext()
 
 function App() {
+  const [load, setLoad] = useState(false)
+  const [paymentId, setPaymentId] = useState('')
+  const state={
+    load,
+    setLoad,
+    setPaymentId,
+    paymentId
+  }
   return (
-    <>
-      <NavigationBar />
+    <UseContext.Provider value={state}>
+      <>
+        <NavigationBar
+          load={load}
+        />
 
-      <Routes>
-        <Route path="" element={<Landing />} />
-        <Route path="login" element={<Login />} />
-        <Route path="joinus" element={<JoinUsB />} />
-        {/* Protected Routes For Users */}
-        <Route path="dashboardBusiness" element={<DashBoardBusiness />} />
-        <Route path="dashboardUser" element={<DashBoardUser />} />
+        <Routes>
+          <Route path="" element={<Landing />} />
+          <Route path="login" element={<Login
+            setLoad={setLoad}
+            load={load}
+          />} />
+          <Route path="joinus" element={<JoinUsB />} />
+          {/* Protected Routes For Users */}
+          <Route path="dashboardBusiness" element={<DashBoardBusiness />} />
+          <Route path="dashboardUser" element={<DashBoardUser />} />
 
-        <Route path="personal">
-          <Route path="register" element={<RegisterPersonal />} />
-          <Route path="updateProfile" element={<NormalProfile />} />
-          <Route path="changePassword" element={<ChangePassword />} />
-          <Route path="forgotPassword" element={<ForgotPassword />} />
-        </Route>
-
-
-        {/* Protected Routes Business Users */}
-        <Route path="business">
-          <Route path="register" element={<RegisterBusiness />} />
-          <Route path="cyp2" element={<CYP2 />} />
-
-        <Route path="otp" element={<CompleteProfileOTP />} />
-        <Route path="sc" element={<Setup_completed />} />
-          <Route path="profile">
-            <Route path="p1" element={<Profile1 />} />
-            <Route path="p2" element={<Profile2 />} />
-            <Route path="p3" element={<Profile3 />} />
-            <Route path="gsp" element={<GSP />} />
+          <Route path="personal">
+            <Route path="register" element={<RegisterPersonal />} />
+            <Route path="updateProfile" element={<NormalProfile />} />
+            <Route path="changePassword" element={<ChangePassword />} />
+            <Route path="forgotPassword" element={<ForgotPassword />} />
           </Route>
-        </Route>
-        {/* Common Routes */}
-        <Route path="subs" element={<Subscription />} />
-        <Route path="reset" element={<Reset />} />
-        <Route path="r" element={<Reset_password_by_email_address />} />
 
-        <Route path="edit" element={<EditPage />} />
-      </Routes>
-      <NewFooter />
-    </>
+
+          {/* Protected Routes Business Users */}
+          <Route path="business">
+            <Route path="register" element={<RegisterBusiness />} />
+            <Route path="cyp2" element={<CYP2 />} />
+
+            <Route path="otp" element={<CompleteProfileOTP />} />
+            <Route path="sc" element={<Setup_completed />} />
+            <Route path="profile">
+              <Route path="p1" element={<Profile1 />} />
+              <Route path="p2" element={<Profile2 />} />
+              <Route path="p3" element={<Profile3 />} />
+              <Route path="gsp" element={<GSP />} />
+            </Route>
+          </Route>
+          {/* Common Routes */}
+          <Route path="subs" element={<Subscription />} />
+          <Route path="subs/payment" element={<PaymentFrontend />} />
+          <Route path="reset" element={<Reset />} />
+          <Route path="r" element={<Reset_password_by_email_address />} />
+
+          <Route path="edit" element={<EditPage />} />
+        </Routes>
+        <NewFooter />
+      </>
+    </UseContext.Provider>
   );
 }
 

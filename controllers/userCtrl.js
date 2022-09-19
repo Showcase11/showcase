@@ -76,11 +76,13 @@ const userCtrl = {
             console.log(req.body, 'from login')
             if (google) {
                 if (email) {
+                    console.log('in')
                     const user = await Users.findOne({ email })
+                    if (!user) return res.status(400).json({ msg: "User does not exist." })
                     accesstoken = createAccessToken({ id: user._id })
                     refreshtoken = createRefreshToken({ id: user._id })
                     userrole = await Users.findById(user._id).select('role')
-                    console.log(user)
+                    console.log(user, 'from google' )
                 }
             } else {
 
@@ -110,6 +112,7 @@ const userCtrl = {
             res.json({ accesstoken, val })
 
         } catch (err) {
+            console.log(err)
             return res.status(500).json({ msg: err.message })
         }
     },

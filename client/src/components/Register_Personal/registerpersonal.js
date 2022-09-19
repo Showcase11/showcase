@@ -7,6 +7,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UseContext } from "../../App";
 
 // client id 
 const clientId = process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
@@ -14,7 +15,8 @@ console.log(clientId)
 const RegisterPersonal = () => {
 
 
-
+  const loader=React.useContext(UseContext)
+  const {load,setLoad}=loader || {}
   const onFailure = (res) => {
     console.log('[Login Failed] res:', res);
   };
@@ -27,6 +29,8 @@ const RegisterPersonal = () => {
   const [msg, setMsg] = useState("");
   const [check, setCheck] = useState(false);
   const navigate = useNavigate();
+  const [disable, setDisable] = useState(true)
+
 
   const RegisterIn = async (e) => {
     e.preventDefault();
@@ -80,6 +84,7 @@ const RegisterPersonal = () => {
           JSON.stringify(response.data.accesstoken)
         );
         // localStorage.removeItem('token')
+        setLoad(!load)
         navigate("/business/cyp2");
       } catch (error) {
         if (error.response) {
@@ -106,7 +111,7 @@ const RegisterPersonal = () => {
           name: name,
           email: email,
           role: 0,
-          google:'google'
+          google: 'google'
         }
       );
 
@@ -119,6 +124,7 @@ const RegisterPersonal = () => {
         "token",
         JSON.stringify(response.data.accesstoken)
       );
+      setLoad(!load)
       navigate("/business/cyp2");
     } catch (error) {
       if (error.response) {
@@ -207,12 +213,17 @@ const RegisterPersonal = () => {
         >
           <input
             type="checkbox"
-            defaultChecked="checked"
             name="terms & conditions"
-            value={check}
-            onChange={(e) => setCheck(e.target.value)}
+            id='check'
+            onChange={(e) => {
+              setDisable(!disable)
+              setCheck(e.target.value)
+            }}
+            style={{ cursor: 'pointer' }}
           />
-          <label htmlFor="terms and conditions">
+          <label
+            style={{ cursor: 'pointer' }}
+            for="check">
             I agree to terms &amp; conditions
           </label>
         </div>
@@ -233,7 +244,12 @@ const RegisterPersonal = () => {
           <br />
         </div>
         <div className="form-group" style={{ textAlign: "center" }}>
-          <button type="submit" className={styles.registerbtn}>
+          <button
+            disabled={disable}
+            type="submit"
+            className={`${disable ?styles.disabledBtn :styles.registerbtn  }`}
+          // style={`${disable ?'backgroundColor:"#3371f2" :'backgroundColor:"red"}`}
+          >
             Register Account
           </button>
         </div>
@@ -253,7 +269,7 @@ const RegisterPersonal = () => {
 
           />
         </div>
-      </form>
+      </form >
 
       <br />
       <br />
@@ -285,7 +301,7 @@ const RegisterPersonal = () => {
         </Alert>
       </Snackbar>
       {/* <Footer/> */}
-    </div>
+    </div >
   );
 };
 

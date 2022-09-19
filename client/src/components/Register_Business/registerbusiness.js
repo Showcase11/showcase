@@ -7,10 +7,14 @@ import ErrorIcon from "@mui/icons-material/Error";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import GoogleLogin from "react-google-login";
+import { UseContext } from "../../App";
 
 
 const RegisterBusiness = () => {
-
+  const loader=React.useContext(UseContext)
+  const {load,setLoad}=loader || {}
+  const clientId = process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
 
   const [ErrorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -20,8 +24,10 @@ const RegisterBusiness = () => {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
   const [check, setCheck] = useState(false);
+  const [show, setShow] = useState(true);
   // const [gl, setGl] = useState(true);
   const navigate = useNavigate();
+  const [disable, setDisable] = useState(true)
   // const showPosition = (pos) => {
   //   const obj = {
   //     latitude: pos.coords.latitude,
@@ -74,33 +80,33 @@ const RegisterBusiness = () => {
     e.preventDefault();
     let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
     let regxpass = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})");
-    const userexist=await fetch("http://3.110.108.123:5000/exist",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
+    const userexist = await fetch("http://3.110.108.123:5000/exist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
       },
-      body:JSON.stringify({
-        email:email
+      body: JSON.stringify({
+        email: email
       })
     })
-    const userExistData=await userexist.json()
-    
-    if(!regex.test(email)){
+    const userExistData = await userexist.json()
+
+    if (!regex.test(email)) {
       //setErrorMessage("Invalid Email");
       setOpen(true);
       setErrorMessage("Invalid Email Address");
     }
-    else if(!regxpass.test(password)){
-        setOpen(true);
-        setErrorMessage(
-          "Password entered should have atleast 8 characters, one uppercase, one lowercase, one number and one special character!"
-        );
+    else if (!regxpass.test(password)) {
+      setOpen(true);
+      setErrorMessage(
+        "Password entered should have atleast 8 characters, one uppercase, one lowercase, one number and one special character!"
+      );
     }
-    else if (userExistData.exist==0 && regex.test(email) && regxpass.test(password)) {
-      debugger
+    else if (userExistData.exist == 0 && regex.test(email) && regxpass.test(password)) {
+      
       console.log('I am from register business')
       try {
-        
+
         const response = await axios.post(
           "http://3.110.108.123:5000/user/register",
           {
@@ -114,28 +120,72 @@ const RegisterBusiness = () => {
         setName("");
         setPassword("");
         setCheck(false);
-          console.log(response)
+        console.log(response)
         localStorage.setItem(
           "token",
           JSON.stringify(response.data.accesstoken)
         );
+        setLoad(!load)
         navigate("/business/cyp2");
       } catch (error) {
         if (error.response) {
           setMsg(error.response.data.msg);
         }
       }
-    } else if(userExistData.exist==1){
+    } else if (userExistData.exist == 1) {
       setOpen(true)
       setErrorMessage("User already exist")
     }
   };
 
+  const onFailure=(err)=>{
+    console.log(err)
+  } 
+
+  const onSuccess = async (res) => {
+    console.log('[Login Success] currentUser:', res.profileObj);
+    console.log(res)
+    setEmail(res.profileObj.email)
+    setName(res.profileObj.name)
+    // console.log(res.profileObj.email)
+    try {
+      const response = await axios.post(
+        "http://3.110.108.123:5000/user/register",
+        {
+          name: name,
+          email: email,
+          role: 1,
+          google:'google'
+        }
+      );
+
+      setEmail("");
+      setName("");
+      setPassword("");
+      setCheck(false);
+
+      localStorage.setItem(
+        "token",
+        JSON.stringify(response.data.accesstoken)
+      );
+      setLoad(!load)
+      navigate("/business/cyp2");
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+
+  };
+
+
+
+
   return (
     <div className={styles.home}>
       <div class="col-2">
-                <img src="/blue bubble (2).png" style={{float:"left", marginTop: "95px", marginLeft:"85px"}} />
-            </div>
+        <img src="/blue bubble (2).png" style={{ float: "left", marginTop: "95px", marginLeft: "85px" }} />
+      </div>
       <form onSubmit={Register} className="container">
         <div className="form-group">
           <a
@@ -208,14 +258,19 @@ const RegisterBusiness = () => {
           className="form-group"
           style={{ textAlign: "center", paddingRight: "19%" }}
         >
-          <input
+         <input
             type="checkbox"
-            defaultChecked="checked"
             name="terms & conditions"
-            value={check}
-            onChange={(e) => setCheck(e.target.value)}
+            id='check'
+            onChange={(e) => {
+              setDisable(!disable)
+              setCheck(e.target.value)
+            }}
+            style={{ cursor: 'pointer' }}
           />
-          <label htmlFor="terms and conditions">
+          <label
+            style={{ cursor: 'pointer' }}
+            for="check">
             I agree to terms &amp; conditions
           </label>
         </div>
@@ -236,15 +291,30 @@ const RegisterBusiness = () => {
           <br />
         </div>
         <div className="form-group" style={{ textAlign: "center" }}>
-          <button type="submit" className={styles.registerbtn}>
+          <button
+             disabled={disable}
+             type="submit"
+             className={`${disable ?styles.disabledBtn :styles.registerbtn  }`}
+          >
             Register Account
           </button>
         </div>
         <p style={{ textAlign: "center" }}>Or</p>
         <div className="form-group" style={{ textAlign: "center" }}>
-          <button type="button" className={styles.googlebtn}>
+          {/* <button
+            type="button" className={styles.googlebtn}>
             Register with Google
-          </button>
+          </button> */}
+           <GoogleLogin
+            clientId={clientId}
+            buttonText="Register with Gooigle"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            cookiePolicy={'single_host_origin'}
+            style={{ marginTop: '1px' }}
+            isSignedIn={true}
+
+          />
         </div>
       </form>
       <br />

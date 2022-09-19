@@ -17,7 +17,6 @@ const Landing = () => {
   return (
     <>
       
-      
       <LetShowCase />
       <MainPage />
       <HappyShowCase />

@@ -1,79 +1,80 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Photo from "../Images/pic.png";
 import Axios from 'axios';
 import Icon from "../Images/Icon.png";
 import EditProfile from "../Images/edit_profile.svg";
 import styles from "../Appbusiness.module.css";
+
 const Section = (props) => {
-  const [profile,setProfile]=useState("");
+  const [profile, setProfile] = useState("");
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
-  const [whatsapp,setWhatsapp]=useState();
-  const naviagte=useNavigate();
+  const [whatsapp, setWhatsapp] = useState();
+  const naviagte = useNavigate();
+  const { plan } = props || {}
 
+  useEffect(() => {
+    async function Underuseffect() {
+      let token = localStorage.getItem("token");
+      if (token !== undefined && token !== null) {
+        token = token.replace(/['"]+/g, "");
+        try {
+          const response = await Axios.get('http://3.110.108.123:5000/user/getpic', {
+            headers: {
+              'Authorization': localStorage.getItem('token').replace(/['"]+/g, ""),
+            }
+          });
+          console.log(response)
+          setProfile(response.data.profile);
+          setName(response.data.name);
+          setAbout(response.data.about);
 
-  useEffect(()=>{
-    async function Underuseffect(){
+        }
+        catch (err) {
+          console.log(err)
+        }
+      }
+      else {
+        alert("Login please");
+      }
+    }
+    Underuseffect();
+
+  });
+  useEffect(() => {
     let token = localStorage.getItem("token");
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
-      try {
-        const response = await Axios.get('http://3.110.108.123:5000/user/getpic',{
-          headers:{
-            'Authorization':localStorage.getItem('token').replace(/['"]+/g, ""),
-          }
-        });
-        console.log(response)
-        setProfile(response.data.profile);
-        setName(response.data.name);
-        setAbout(response.data.about);
-
-      }
-        catch(err){
-          console.log(err)
-        }
-    }
-    else{
-      alert("Login please");
-    }
-  }
-  Underuseffect();
-
-  });
-  useEffect(()=>{
-    let token=localStorage.getItem("token");
-    if(token!==undefined&&token!==null){
-      token=token.replace(/['"]+/g,"");
-      fetch("http://3.110.108.123:5000/user/infor",{
-        method:"GET",
-        headers:{
-          Authorization:token,
-          Accept:"application/json",
-          "Content-Type":"application/json",
+      fetch("http://3.110.108.123:5000/user/infor", {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
-      }).then((res)=>{
+      }).then((res) => {
         return res.json();
       }
-      ).then((data)=>{
-        const obj={
-          phone:data.phone,
-          country:data.country,
+      ).then((data) => {
+        const obj = {
+          phone: data.phone,
+          country: data.country,
         }
         setWhatsapp(obj);
       }
       )
     }
-    else{
+    else {
       alert("Please login to see your profile");
     }
-  },[])
+  }, [])
   return (
     <>
       <div className={styles.header_container}>
         <header>
           <div className={styles.hero_container}>
-            <img src={profile} alt="123" id="photo" />
+            <img className={styles.business_profile_img} src={profile} alt="123" id="photo" />
             {/* <input
               type="file"
               className={styles.my_file}
@@ -106,11 +107,11 @@ const Section = (props) => {
           </section>
           <section className="whatsapp">
             <div className="box1">
-              <button onClick={()=>{
-                if(whatsapp!==undefined){
+              <button onClick={() => {
+                if (whatsapp !== undefined) {
                   window.open(`https://wa.me/${whatsapp.country}${whatsapp.phone}`)
                 }
-                else{
+                else {
                   alert("Please login to see your profile");
                 }
               }} className="boxbtn1">
@@ -140,11 +141,27 @@ const Section = (props) => {
           </section>
 
           <div className="post_videobtn">
-            <button onClick={props.onModalClose} className="button button2">
+            <button style={{ padding: '4px 10px' }} onClick={props.onModalClose} className="button button2">
               Post Video
             </button>
           </div>
         </header>
+      </div>
+      <div>
+        <div>
+          {
+            plan?.plan && <div
+              style={{
+                marginTop: "20px",
+                textAlign: 'center',
+
+              }}
+            >
+              <p>Plan:{plan?.plan}</p>
+              <p>Payment Id:{plan?.paymentId}</p>
+            </div>
+          }
+        </div>
       </div>
     </>
   );

@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt");
 const User = require("./models/userModel");
 const client = require("twilio")(process.env.acountSID, process.env.authToken);
 const app = express();
+const paymentRoute=require('./routes/paymentRoute.js')
 // AWS.config.update({
 //   accessKeyId: "AKIAR3UTLLOPFFCEOVXL",
 //   secretAccessKey: "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",
@@ -50,6 +51,10 @@ app.post('s3Url',async(req,res)=>{
    const uploadUrl=await s3.getSignedUrl("putObject",params);
     res.json({uploadUrl,videoname});
 })
+
+// payment route 
+app.use('/api/v1/payment',paymentRoute)
+
 app.post("/user/saved", async (req, res) => {
   let { videoId, VideoLink, productId,latitude,longitude } = req.body;
   //console.log(videoId, VideoLink);

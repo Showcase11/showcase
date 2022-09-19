@@ -1,0 +1,74 @@
+/* logo design  */
+.logo {
+    width: 48px;
+    height: 48px;
+}
+
+.header_logo {
+    text-align: center;
+    position: relative;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 18%);
+    background: #fff;
+    padding: 8px;
+    display: inline-block;
+}
+.common_line{
+    width:'30px' !important;
+    height:'3px' !important;
+    background:'#ffa500' !important;
+    margin-top: 10px;
+    display: block;
+}
+.terms{
+    margin-top: 4px;
+    color: #515978;
+    font-size: 14px;
+    line-height: 22px;
+    padding-right:20px;
+}
+
+/* form style  */
+.form_container{
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 6px 11px 24px 0 rgb(23 31 37 / 12%);
+    background: #fff;
+}
+
+.payment_input{
+    line-height: 16px;
+    height: 38px;
+    width: 232px;
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 2px;
+    overflow: hidden;
+    font-size: 14px;
+    padding: 0 9px;
+    outline: none;
+    color: inherit;
+}
+
+.payment_input:focus{
+    border: 1px solid #ffa500;
+}
+
+
+.btn{
+    position: relative;
+    width: 180px;
+    min-height: 56px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    float: right;
+    border-radius: 0;
+    text-align: center;
+    color: #fff;
+    border:0;
+    outline: none;
+    background-color:#ffa500 ;
+    cursor: pointer;
+}
+

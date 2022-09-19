@@ -8,8 +8,11 @@ import { useState } from "react";
 import axios from "axios";
 
 import { Link, useNavigate } from "react-router-dom";
+import { UseContext } from "../../App";
 
 const Login = () => {
+  const loader=React.useContext(UseContext)
+  const {load,setLoad}=loader || {}
   const [email, setEmail] = useState("");
   const [ErrorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -28,7 +31,6 @@ const Login = () => {
     })
   }, [clientId])
 
-
   const NewLogin = async (e) => {
     e && e.preventDefault();
     let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
@@ -46,15 +48,16 @@ const Login = () => {
       }),
     });
     const userExistData = await userexist.json();
-   
+
     if ((userExistData.exist == 1 && regex.test(email) && regxpass.test(password))) {
       console.log('click')
+      setLoad(!load)
       try {
 
         const data = await axios.post("http://3.110.108.123:5000/user/login", {
           email: email,
           password: password,
-          google:'google'
+          google: 'google'
         });
         response = data
         console.log('from response', response);
@@ -69,6 +72,7 @@ const Login = () => {
         localStorage.setItem("val", JSON.stringify(response.data.val));
         let token = localStorage.getItem("token");
         token = token.replace(/['"]+/g, "");
+        localStorage.setItem('token', JSON.stringify(token))
         const roles = await fetch("http://3.110.108.123:5000/user/infor", {
           method: "GET",
           headers: {
@@ -106,43 +110,50 @@ const Login = () => {
   // google response function 
   const responseGoogle = async (response) => {
     // set email 
-    console.log(response)
-    const data = await axios.post("http://3.110.108.123:5000/user/login", {
-      email:response?.profileObj?.email,
-      google: 'google'
-    });
-  
-    response = data
-    localStorage.setItem(
-      "token",
-      JSON.stringify(response.data.accesstoken)
-    );
-    localStorage.setItem("val", JSON.stringify(response.data.val));
+    try {
+      setEmail(response?.profileObj?.email)
+      console.log(response)
+      const data = await axios.post("http://3.110.108.123:5000/user/login", {
+        email: response?.profileObj?.email,
+        google: 'google'
+      });
 
-    let token = localStorage.getItem("token");
-    // verify token api 
-    token = token.replace(/['"]+/g, "");
-    const roles = await fetch("http://3.110.108.123:5000/user/infor", {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    const roleData = await roles.json();
+      response = data
+      localStorage.setItem(
+        "token",
+        JSON.stringify(response.data.accesstoken)
+      );
+      localStorage.setItem("val", JSON.stringify(response.data.val));
 
-    // verify on role 
-    if (roleData.role == 0) {
-      navigate("/dashboarduser");
-    } else {
-      navigate("/dashboardbusiness");
+      let token = localStorage.getItem("token");
+      // verify token api 
+      token = token.replace(/['"]+/g, "");
+      const roles = await fetch("http://3.110.108.123:5000/user/infor", {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      const roleData = await roles.json();
+      setLoad(!load)
+      // verify on role 
+      if (roleData.role == 0) {
+        navigate("/dashboarduser");
+      } else {
+        navigate("/dashboardbusiness");
+      }
+
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
     }
-
   }
 
   const handleLogOut = (result) => {
-   
+
   }
 
   return (

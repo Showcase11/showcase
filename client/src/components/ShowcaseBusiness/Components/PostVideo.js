@@ -10,6 +10,7 @@ import styles from "../Formbusiness.module.css";
 
 import { uploadFile } from 'react-s3';
 import axios from "axios";
+import Loading from "../../shared/Loading";
 
 // const config = {
 //   bucketName: "showcase27",
@@ -21,16 +22,16 @@ import axios from "axios";
 // };
 // const ReactS3Client = new S3(config);
 
-const S3_BUCKET ='showcase28';
-const REGION ='us-east-1';
-const ACCESS_KEY ='AKIAQFXX4ZU3AHYZQUFH';
-const SECRET_ACCESS_KEY ='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';
+const S3_BUCKET = 'showcase28';
+const REGION = 'us-east-1';
+const ACCESS_KEY = 'AKIAQFXX4ZU3AHYZQUFH';
+const SECRET_ACCESS_KEY = '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';
 
 const config = {
-    bucketName: S3_BUCKET,
-    region: REGION,
-    accessKeyId: ACCESS_KEY,
-    secretAccessKey: SECRET_ACCESS_KEY,
+  bucketName: S3_BUCKET,
+  region: REGION,
+  accessKeyId: ACCESS_KEY,
+  secretAccessKey: SECRET_ACCESS_KEY,
 }
 
 
@@ -56,18 +57,18 @@ const PostVideo = (props) => {
     "No file currently selected for Upload"
   );
   const [link, setLink] = useState("");
-
+  const [loading, setLoading] = useState(false)
   const [previewVideo, setPreviewVideo] = useState(null);
 
 
   useEffect(() => {
 
-  },[fileMeta]);
-  
+  }, [fileMeta]);
+
   const FileChangeHandler = (e) => {
     setfileMeta(e.target.files[0]);
 
-    
+
     const display =
       "File name " +
       e.target.files[0].name +
@@ -91,84 +92,95 @@ const PostVideo = (props) => {
   };
 
 
-const PostVideoHandler = (e) => {
-  e.preventDefault();
-  console.log(fileMeta);
-  const handleUpload = async (file) => {
-    uploadFile(file, config)
-        .then(data => setLink(data.location))
-        .catch(err => console.error(err))
-}
-handleUpload(fileMeta);
-async function locate(){
-  try{
-    const resp = await axios.get("http://3.110.108.123:5000/user/infor",
-        {
-          headers: {
-            'Authorization':localStorage.getItem('token').replace(/['"]+/g, ""),
-          },
-        }
-    );
-    setLatitude(resp.data.latitude);
-    setLongitude(resp.data.longitude);
-    setID(resp.data._id);
-    setCountry(resp.data.country);
-    setphone(resp.data.phone);
-  }catch(err){
-    console.log(err);
+
+  const PostVideoHandler = (e) => {
+    e.preventDefault();
+    setLoading(true)
+    console.log(fileMeta);
+    const handleUpload = async (file) => {
+      uploadFile(file, config)
+        .then(data => {
+          setLoading(false)
+          return setLink(data.location)
+        })
+        .catch(err => {
+          setLoading(false)
+          console.error(err)
+        })
+    }
+
+    handleUpload(fileMeta);
+    async function locate() {
+      try {
+        const resp = await axios.get("http://3.110.108.123:5000/user/infor",
+          {
+            headers: {
+              'Authorization': localStorage.getItem('token').replace(/['"]+/g, ""),
+            },
+          }
+        );
+        setLatitude(resp.data.latitude);
+        setLongitude(resp.data.longitude);
+        setID(resp.data._id);
+        setCountry(resp.data.country);
+        setphone(resp.data.phone);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    locate();
+
   }
-}
-locate();
 
-}
 
-useEffect(()=>{
-  async function handleupdate(){
-    try{
-      const response = await axios.post(
-        "http://3.110.108.123:5000/admin/products",
-        {
-          link: link,
-          companyName: CompanyName + "*" + id,
-          email: CompanyAddress,
-          brand: ProductBrand + "*" + country + phone,
-          type: ProductType,
-          category: Category,
-          price: ProductPrice,
-          Description: ProductDescription,
-          latitude: latitude,
-          longitude: longitude,
-        },
-        {
-          headers: {
-            'Authorization':localStorage.getItem('token').replace(/['"]+/g, ""),
+  useEffect(() => {
+    async function handleupdate() {
+      try {
+        const response = await axios.post(
+          "http://3.110.108.123:5000/admin/products",
+          {
+            link: link,
+            companyName: CompanyName + "*" + id,
+            email: CompanyAddress,
+            brand: ProductBrand + "*" + country + phone,
+            type: ProductType,
+            category: Category,
+            price: ProductPrice,
+            Description: ProductDescription,
+            latitude: latitude,
+            longitude: longitude,
           },
-        }
-      );
-    }catch(err){
-      console.log(err);
+          {
+            headers: {
+              'Authorization': localStorage.getItem('token').replace(/['"]+/g, ""),
+            },
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+      setLink("");
+      setCompanyName("");
+      setCompanyAddress("");
+      setProductBrand("");
+      setProductType("");
+      setCategory("");
+      setProductPrice("");
+      setProductDescription("");
+      setLatitude(0);
+      setLongitude(0);
     }
-    setLink("");
-    setCompanyName("");
-    setCompanyAddress("");
-    setProductBrand("");
-    setProductType("");
-    setCategory("");
-    setProductPrice("");
-    setProductDescription("");
-    setLatitude(0);
-    setLongitude(0);
-    }
-    if(link != ""){
+    if (link != "") {
       handleupdate();
     }
 
-},[link])
+  }, [link,Category])
 
+  if (loading) return <Loading />
 
   // const PostVideoHandler = (e) => {
   //   e.preventDefault();
-    
+
 
 
   // let aws;
@@ -226,16 +238,16 @@ useEffect(()=>{
   //               Accept: "application/json",
   //             },
   //             body: JSON.stringify({
-                // link: aws,
-                // companyName: CompanyName + "*" + data._id,
-                // email: CompanyAddress,
-                // brand: ProductBrand + "*" + data.country + data.phone,
-                // type: ProductType,
-                // category: Category,
-                // price: ProductPrice,
-                // Description: ProductDescription,
-                // latitude: data.latitude,
-                // longitude: data.longitude,
+  // link: aws,
+  // companyName: CompanyName + "*" + data._id,
+  // email: CompanyAddress,
+  // brand: ProductBrand + "*" + data.country + data.phone,
+  // type: ProductType,
+  // category: Category,
+  // price: ProductPrice,
+  // Description: ProductDescription,
+  // latitude: data.latitude,
+  // longitude: data.longitude,
   //             }),
   //           })
   //             .then((res) => {
@@ -294,7 +306,7 @@ useEffect(()=>{
           <label className={styles.LabelVideo} htmlFor="video">
             Browse
           </label>
-          
+
         </div>
         <div className={styles.fd}>{fileDisplay}</div>
 

@@ -62,7 +62,8 @@ const Subscription = () => {
                   <button
                     type="submit"
                     className={styles.savebtn}
-                    formAction="https://rzp.io/l/YkRpwYfJqL"
+                    // formAction="https://rzp.io/l/YkRpwYfJqL"
+                    onClick={()=>navigate('/subs/payment')}
                   >
                     Continue
                   </button>

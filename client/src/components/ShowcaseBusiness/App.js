@@ -12,6 +12,7 @@ const App = () => {
   const [ProductInfo, setProductInfo] = useState(false);
   const [closeGps, setCloseGps] = useState(false);
   const [data1, setData] = useState();
+  const [plan, setPlan] = useState({})
   const VideoDetails = (data) => {
 
     setdisplayVideos((prev) => [...prev, data]);
@@ -41,7 +42,13 @@ const App = () => {
         return res.json();
       })
       .then((data) => {
-
+        console.log('from business',data)
+        fetch(`http://localhost:5000/api/v1/payment/getPaymentDetails/${data?._id}`)
+        .then(res=>res.json())
+        .then(data=>{
+          console.log('payment',data)
+          setPlan(data?.data)
+        })
         const role = data.role;
         if (role !== 1) {
           navigate('/');
@@ -60,6 +67,7 @@ const App = () => {
         onGps={setCloseGps}
         TotalVids={displayVideos.length}
         onModalClose={setModalClose}
+        plan={plan}
       />
       {ModalClose && (
         <PostVideo onDisplay={VideoDetails} onModalClose={setModalClose} />

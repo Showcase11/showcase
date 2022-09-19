@@ -60,6 +60,7 @@
 
 
 /*set a style for the submit button*/
+
 .RP .registerbtn{
     background-color: #3371f2;
     color: white;
@@ -70,7 +71,15 @@
     opacity: 0.9;
     
 
-
+}
+.RP .disabledBtn{
+    background-color: #49484d;
+    color: white;
+    padding: 8px 12px;
+    margin: 8px 0;
+    border: none;
+    width: 40%;
+    opacity: 0.9;
 }
 .RP .registerbtn:hover{
     opacity: 1;

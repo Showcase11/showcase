@@ -6,9 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Join_US_Business = () => {
   const navigate = useNavigate();
+  
   const handlebus = () => {
-    navigate("/dashboardBusiness");
+    navigate("/business/register");
   };
+
   const handleind = () => {
     navigate("/personal/register");
   };

@@ -214,7 +214,7 @@ nav ul {
 .header-container {
   background: #f4f4f2;
   position: inherit;
-  height: 485px;
+  min-height: 485px;
   left: 0%;
   right: 0%;
   top: 84px;

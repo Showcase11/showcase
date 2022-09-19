@@ -1,8 +1,10 @@
 import React from 'react'
 import NavBar from './NavBar'
-const App = () => {
+const App = ({load}) => {
   return (
-    <NavBar/>
+    <NavBar
+    load={load}
+    />
   )
 }
 

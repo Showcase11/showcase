@@ -13,6 +13,7 @@ const App = () => {
   const [ProductInfo, setProductInfo] = useState(false);
   const [closeGps, setCloseGps] = useState(false);
   const [data1, setData] = useState();
+  const [plan, setPlan] = useState({})
   const VideoDetails = (data) => {
     setdisplayVideos((prev) => [...prev, data]);
   };
@@ -36,13 +37,19 @@ const App = () => {
         },
       })
         .then((res) => {
-          console.log(res);
+          console.log('res',res);
           return res.json();
         })
         .then((data) => {
           const role = data.role;
-          console.log(data);
+          console.log('data',data);
           console.log(role,"role");
+          fetch(`http://3.110.108.123:5000/api/v1/payment/getPaymentDetails/${data?._id}`)
+          .then(res=>res.json())
+          .then(data=>{
+            console.log('payment',data)
+            setPlan(data?.data)
+          })
           if (role !== 0) {
             navigate("/");
           }
@@ -50,7 +57,7 @@ const App = () => {
         .catch((err) => {
           console.log(err);
         });
-    });
+    },[navigate]);
   return (
     <>
       {closeGps && <MapModal onGps={setCloseGps} onGpsData={coord} />}
@@ -59,6 +66,7 @@ const App = () => {
         onGps={setCloseGps}
         TotalVids={displayVideos.length}
         onModalClose={setModalClose}
+        plan={plan}
       />
       {ModalClose && (
         <PostVideo onDisplay={VideoDetails} onModalClose={setModalClose} />
