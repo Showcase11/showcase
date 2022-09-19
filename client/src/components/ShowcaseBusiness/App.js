@@ -43,7 +43,7 @@ const App = () => {
       })
       .then((data) => {
         console.log('from business',data)
-        fetch(`http://localhost:5000/api/v1/payment/getPaymentDetails/${data?._id}`)
+        fetch(`http://3.110.108.123:5000/api/v1/payment/getPaymentDetails/${data?._id}`)
         .then(res=>res.json())
         .then(data=>{
           console.log('payment',data)
