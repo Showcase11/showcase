@@ -111,6 +111,7 @@ const PaymentForm = ({setUsers}) => {
                 image: "https://media-exp1.licdn.com/dms/image/C4D0BAQFb5Nycat7-sQ/company-logo_200_200/0/1613032358511?e=1671667200&v=beta&t=9eH6D-V14HXcMHh9o5adSzsYdt7FNeii01SSC4abPFg",
                 order_id: result?.data?.id,
                 handler: async function (response) {
+                    // verify apii 
                     const { data } = await axios.post("http://3.110.108.123:5000/api/v1/payment/paymentVerification", {
                         response,
                         email,
