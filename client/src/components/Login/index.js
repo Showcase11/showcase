@@ -11,8 +11,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { UseContext } from "../../App";
 
 const Login = () => {
-  const loader=React.useContext(UseContext)
-  const {load,setLoad}=loader || {}
+  const loader = React.useContext(UseContext)
+  const { load, setLoad } = loader || {}
   const [email, setEmail] = useState("");
   const [ErrorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -148,6 +148,8 @@ const Login = () => {
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
+        setOpen(true);
+        setErrorMessage(error.response.data.msg);
       }
     }
   }

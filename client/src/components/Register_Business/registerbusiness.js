@@ -152,8 +152,8 @@ const RegisterBusiness = () => {
       const response = await axios.post(
         "http://3.110.108.123:5000/user/register",
         {
-          name: name,
-          email: email,
+          name: res.profileObj.name,
+          email:res.profileObj.email,
           role: 1,
           google:'google'
         }
@@ -173,6 +173,8 @@ const RegisterBusiness = () => {
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
+        setOpen(true)
+        setErrorMessage("User already exist")
       }
     }
 
@@ -312,7 +314,6 @@ const RegisterBusiness = () => {
             onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
             style={{ marginTop: '1px' }}
-            isSignedIn={true}
 
           />
         </div>

@@ -15,15 +15,22 @@ const userCtrl = {
         try {
 
             const { name, email, role, password, google } = req.body;
-            console.log(req.body, 'from register body')
+           
             // verify user for only google authentication 
             if (google) {
                 if (email) {
-                /*     const user = await Users.findOne({ email })
-                    if (user) return res.status(400).json({ msg: "The email already exists." }) */
-                    const result = await Users.findOneAndUpdate({ email }, { $set: { email, name, role } }, { upsert: true, setDefaultsOnInsert: true })
-                    newUser = result
-                    console.log(newUser, 'from register')
+                    const user = await Users.findOne({ email })
+                   
+                    if (user) return res.status(400).json({ msg: "The email already exists." })
+                    let newAccount = await Users.create({
+                        email,
+                        name,
+                        role,
+                        loginBy: google
+                    })
+                    newAccount.save()
+                    newUser =newAccount
+                  
                 }
             } else {
 
@@ -54,8 +61,7 @@ const userCtrl = {
                 path: '/user/refresh_token',
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
             })
-            console.log(accesstoken)
-            console.log(newUser)
+           
             res.json({ accesstoken })
 
         } catch (err) {
@@ -65,8 +71,17 @@ const userCtrl = {
         }
     },
 
+    deleteUser: async (req, res) => {
+        const result = await Users.deleteOne({ email: req.body.email })
+        res.send(result)
+    },
+    findUser: async (req, res) => {
+        const result = await Users.find({ email: req.body.email })
+        res.send(result)
+    },
 
     login: async (req, res) => {
+        console.log(req.body, 'from login')
         try {
             let userrole;
             let user;
@@ -80,11 +95,12 @@ const userCtrl = {
                 if (email) {
                     console.log('in')
                     const user = await Users.findOne({ email })
+                    console.log(user, 'user')
                     if (!user) return res.status(400).json({ msg: "User does not exist." })
                     accesstoken = createAccessToken({ id: user._id })
                     refreshtoken = createRefreshToken({ id: user._id })
                     userrole = await Users.findById(user._id).select('role')
-                    console.log(user, 'from google' )
+                    console.log(user, 'from google')
                 }
             } else {
 
@@ -238,6 +254,8 @@ const userCtrl = {
     complete: async (req, res) => {
         try {
             const user = await Users.findById(req.user.id)
+            console.log(user,'complete')
+            console.log(req.user.id,'complete')
             if (!user) return res.status(400).json({ msg: "User does not exist." })
 
             const params = {

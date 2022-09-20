@@ -108,8 +108,8 @@ const RegisterPersonal = () => {
       const response = await axios.post(
         "http://3.110.108.123:5000/user/register",
         {
-          name: name,
-          email: email,
+          name: res.profileObj.name,
+          email: res.profileObj.email,
           role: 0,
           google: 'google'
         }
@@ -124,11 +124,15 @@ const RegisterPersonal = () => {
         "token",
         JSON.stringify(response.data.accesstoken)
       );
+      console.log(response)
       setLoad(!load)
       navigate("/business/cyp2");
     } catch (error) {
       if (error.response) {
+        console.log(error)
         setMsg(error.response.data.msg);
+        setOpen(true);
+        setErrorMessage(error.response.data.msg);
       }
     }
 
@@ -265,8 +269,6 @@ const RegisterPersonal = () => {
             onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
             style={{ marginTop: '1px' }}
-            isSignedIn={true}
-
           />
         </div>
       </form >

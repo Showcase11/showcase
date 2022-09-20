@@ -145,7 +145,7 @@ const NavBar = React.memo(function Nav() {
   };
 
   const googleLogOut = (res) => {
-    console.log(res)
+    console.log('from google logout',res)
   }
 
 

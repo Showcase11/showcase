@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     phone: {
       type: String,
@@ -59,6 +58,7 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    loginBy:String
   },
   {
     timestamps: true,

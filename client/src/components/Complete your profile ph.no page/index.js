@@ -30,6 +30,7 @@ const CYP2 = () => {
 
   const CompleteDetail = async (e) => {
     e.preventDefault();
+    console.log(localStorage.getItem('token'))
     console.log(phone, address, country);
     // setOpen(true);
     // setErrorMessage("hehe");
