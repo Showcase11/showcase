@@ -104,7 +104,7 @@ const RegisterBusiness = () => {
     }
     else if (userExistData.exist == 0 && regex.test(email) && regxpass.test(password)) {
       
-      console.log('I am from register business')
+     
       try {
 
         const response = await axios.post(

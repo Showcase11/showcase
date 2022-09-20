@@ -25,6 +25,7 @@ const s3 = new aws.S3({
 // cors creadintial
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors())
 /* app.use(cors({
   origin:[
     'http://localhost:3000',
@@ -39,10 +40,10 @@ app.use(cookieParser());
   optionSuccessStatus:200
 })); */
 // cors 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
   res.header({"Access-Control-Allow-Origin": "*"});
   next();
-}) 
+})  */
 app.use(fileUpload({ useTempFiles: true }));
 app.post('s3Url',async(req,res)=>{
    const videoname=req.body.fn;

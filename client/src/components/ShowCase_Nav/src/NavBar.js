@@ -124,13 +124,11 @@ const NavBar = React.memo(function Nav() {
         },
       })
         .then((res) => {
-          console.log(res)
+        
           return res.json();
         })
         .then((data) => {
-          console.log(data, "sp");
           const role = data.role;
-
           if (role == 0) {
             navigate("/dashboarduser");
           } else if (role == 1) {

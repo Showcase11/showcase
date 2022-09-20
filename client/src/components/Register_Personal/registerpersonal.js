@@ -99,8 +99,7 @@ const RegisterPersonal = () => {
 
 
   const onSuccess = async (res) => {
-    console.log('[Login Success] currentUser:', res.profileObj);
-    console.log(res)
+    
     setEmail(res.profileObj.email)
     setName(res.profileObj.name)
     // console.log(res.profileObj.email)
@@ -124,7 +123,7 @@ const RegisterPersonal = () => {
         "token",
         JSON.stringify(response.data.accesstoken)
       );
-      console.log(response)
+    
       setLoad(!load)
       navigate("/business/cyp2");
     } catch (error) {

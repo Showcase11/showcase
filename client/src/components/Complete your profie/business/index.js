@@ -75,9 +75,8 @@ const CompleteProfileOTP = () => {
     }
     
     details = JSON.parse(details);
-    console.log(details)
     let otp = otpref.current.value;
-    console.log(otp, details);
+   
     const res = await fetch("http://3.110.108.123:5000/otpcheck", {
       method: "POST",
       headers: {

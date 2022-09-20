@@ -30,7 +30,7 @@ const Reset_password_by_email_address = () => {
       }
         localStorage.setItem("changePasss",JSON.stringify(obj));
          navigate("/business/otp");
-        console.log(data);
+      
     })
    
   };

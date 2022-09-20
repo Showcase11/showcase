@@ -58,13 +58,13 @@ const PaymentForm = ({setUsers}) => {
         }
     }, [])
 
-    console.log('form', user)
+    
     if(!user) return navigate('/')
     const handleCheck1 = (event) => {
         setChecked1(event.target.checked)
         // alert(event.target.checked)
         setPay(pay + Number(ref1?.current?.innerText.replace(/[^A-Za-z0-9]/g, "")))
-        console.log(pay + Number(ref1?.current?.innerText.replace(/[^A-Za-z0-9]/g, "")))
+       
     };
 
     const handleCheck2 = (event) => {
@@ -79,11 +79,11 @@ const PaymentForm = ({setUsers}) => {
     const handleValue = (e) => {
         setValue(e.target.value)
     }
-    console.log(pay)
+  
 
     const handlePayment = async (e) => {
         e.preventDefault()
-        console.log('payment')
+       
 
         if (pay === 0) {
             setError('Please Select a payment value')
@@ -98,9 +98,9 @@ const PaymentForm = ({setUsers}) => {
             // get key 
             console.log(pay)
             const { data } = await axios.get(`http://3.110.108.123:5000/api/v1/payment/createOrder`)
-            console.log(data)
+          
             const { data: result } = await axios.post(`http://3.110.108.123:5000/api/v1/payment/createOrder`, { pay })
-            console.log(result)
+           
             var options = {
                 key: data?.data,
                 amount: result?.data?.amount,
@@ -121,7 +121,7 @@ const PaymentForm = ({setUsers}) => {
                         amount: pay,
                         plan: value
                     })
-                    console.log('success data', data)
+                   
                     setSuccess('Your Payment is success')
                 },
                 prefill: {

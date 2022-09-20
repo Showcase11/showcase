@@ -22,7 +22,7 @@ const Normal_profile = () => {
             }
           });
           setProfile(response.data.profile);
-          console.log(response)
+        
         }
         catch (err) {
           console.log(err)
@@ -44,7 +44,7 @@ const Normal_profile = () => {
       formData.append("file", files[0]);
       formData.append("upload_preset", "a7zbcbwb");
       const res = await Axios.post("https://api.cloudinary.com/v1_1/dww5gv28l/image/upload", formData)
-      console.log(res.data, 'img response')
+    
       setProfile(res.data.url);
       localStorage.setItem('img', JSON.stringify({ img: res.data.url }))
     }
@@ -62,7 +62,7 @@ const Normal_profile = () => {
       token = token.replace(/['"]+/g, "");
     }
     try {
-      console.log(profile)
+     
       const pImg = JSON.parse(localStorage.getItem('img'))
 
       const response = await Axios.patch("http://3.110.108.123:5000/user/personal", {
