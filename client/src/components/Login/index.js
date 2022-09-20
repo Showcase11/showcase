@@ -32,7 +32,7 @@ const Login = () => {
   }, [clientId])
 
   const NewLogin = async (e) => {
-    e && e.preventDefault();
+     e.preventDefault();
     let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
     let regxpass = new RegExp(
       "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
@@ -51,7 +51,6 @@ const Login = () => {
 
     if ((userExistData.exist == 1 && regex.test(email) && regxpass.test(password))) {
       console.log('click')
-      setLoad(!load)
       try {
 
         const data = await axios.post("http://3.110.108.123:5000/user/login", {
@@ -82,6 +81,7 @@ const Login = () => {
           },
         });
         const roleData = await roles.json();
+        setLoad(!load)
         console.log(roleData.role);
         if (roleData.role == 0) {
           navigate("/dashboarduser");

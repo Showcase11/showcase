@@ -17,7 +17,7 @@ import { GoogleLogout } from 'react-google-login';
 import { UseContext } from "../../../App";
 const NavBar = React.memo(function Nav() {
   const loader = React.useContext(UseContext)
-  const { load } = loader || {}
+  const { load,setLoad } = loader || {}
 
   const data = [
     {
@@ -80,25 +80,28 @@ const NavBar = React.memo(function Nav() {
 
     let token = localStorage.getItem("token")
     let timer
-    if (load || token) {
+    /* if (load || token) {
+      console.log('inside load navbar')
       timer = setTimeout(() => {
         setRefresh(!refresh)
       }, 2000)
       // window.clearTimeout(timer)
-    }
-
-    if (token !== undefined && token !== null) {
-      console.log('logout set')
+    } */
+    console.log(load, 'load')
+    console.log(token)
+    if ((load || (token!== undefined && token !== null))) {
       token = token.replace(/['"]+/g, "");
+      console.log('token')
+      
+      if(load) setLoad(!load) 
       setLogin("Logout")
-      setRefresh(!refresh)
     }
     else {
       setLogin("Login")
-      console.log('no token ')
+      setRefresh(!refresh)
     }
 
-  }, [Login, load, refresh])
+  }, [Login,load])
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -109,7 +112,7 @@ const NavBar = React.memo(function Nav() {
 
   const handleDashboard = () => {
     let token = localStorage.getItem("token");
-    console.log(token)
+
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
       fetch("http://3.110.108.123:5000/user/infor", {
@@ -145,18 +148,22 @@ const NavBar = React.memo(function Nav() {
   };
 
   const googleLogOut = (res) => {
-    console.log('from google logout',res)
+    console.log('from google logout', res)
   }
 
 
   const handleLogout = () => {
     googleLogOut()
     let token = localStorage.getItem("token");
-    if (token !== undefined && token !== null) {
-      console.log('click')
-      setRefresh(!refresh)
+    console.log(token)
+    if (token /* !== undefined && token !== null */) {
+      console.log(token)
+      setLogin("Login")
+      setTimeout(() => {
+        setRefresh(!refresh)
+      },2000)
       localStorage.removeItem("token");
-      setLogin('Logout')
+
       navigate("/");
     }
     else {
@@ -166,7 +173,7 @@ const NavBar = React.memo(function Nav() {
     setAnchorEl(null);
   };
 
-  // console.log('from searchbar', search)
+
 
 
   return (

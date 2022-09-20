@@ -115,6 +115,4 @@ const paymentCtrl = {
     }
 }
 
-
-
 module.exports = paymentCtrl
