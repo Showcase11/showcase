@@ -31,13 +31,13 @@ const Videos = (props) => {
               return res.json();
             })
             .then((data) => {
-              console.log(data,"bc");
+              
               if(data==undefined)
               {
                 console.log("pop")
                 return;
               }
-              console.log(data,"hogyabas")
+      
               let b=[];
                for(let i = data.VideoLink.length-1;i>=0;i--)
                {
@@ -49,17 +49,17 @@ const Videos = (props) => {
                 }
                b.push(obj);
                }
-               console.log(b,"pko");
+              
                localStorage.setItem("userVidsSize",b.length);
                setUserVids(b);
             });
         })
         .catch((err) => {
-          console.log(err);
+         
         });
     } else {
       //
-      console.log("no token");
+      
     }
   }, []);
   return (

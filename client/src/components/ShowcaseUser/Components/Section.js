@@ -32,7 +32,7 @@ const Section = (props) => {
 
         }
         catch (err) {
-          console.log(err)
+        
         }
       }
       else {
