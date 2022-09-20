@@ -22,7 +22,7 @@ const Section = (props) => {
               'Authorization': localStorage.getItem('token').replace(/['"]+/g, ""),
             }
           });
-          console.log(response)
+         
           setProfile(response.data.profile);
           setName(response.data.name);
           setAbout(response.data.about);

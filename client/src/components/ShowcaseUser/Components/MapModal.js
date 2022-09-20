@@ -7,7 +7,7 @@ import "../App.css";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents} from "react-leaflet";
 
 const MapModal = (props) => {
-  console.log(props.onGpsData,"hjk");
+
    //const [ErrorMessage, setErrorMessage] = useState("");
    const [open, setOpen] = useState(false);
   const [position, setPosition1] = useState([25.38714, 82.91684]);

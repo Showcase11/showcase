@@ -5,7 +5,7 @@ const Videos = (props) => {
   const [vdp, setVdp] = useState([]);
   useEffect(() => {
     let token = localStorage.getItem("token");
-    console.log(token);
+  
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
 
@@ -29,11 +29,11 @@ const Videos = (props) => {
               return res.json();
             })
             .then((products) => {
-              console.log(products, id, "ip");
+             
               const product = products.products.filter((product) =>
                 product.companyName.includes(id)
               );
-              console.log(product, "meow");
+             
               setVdp(product);
               localStorage.setItem("vsize", product.length);
             });

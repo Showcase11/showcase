@@ -18,7 +18,7 @@ const App = () => {
     setdisplayVideos((prev) => [...prev, data]);
   };
   const FetchVideoDetails = (data) => {
-    console.log(data);
+    
     setData(data);
   };
 
@@ -38,15 +38,15 @@ const App = () => {
       },
     })
       .then((res) => {
-        console.log(res);
+      
         return res.json();
       })
       .then((data) => {
-        console.log('from business',data)
+       
         fetch(`http://3.110.108.123:5000/api/v1/payment/getPaymentDetails/${data?._id}`)
         .then(res=>res.json())
         .then(data=>{
-          console.log('payment',data)
+         
           setPlan(data?.data)
         })
         const role = data.role;
@@ -56,7 +56,7 @@ const App = () => {
 
       })
       .catch((err) => {
-        console.log(err);
+      
       });
   });
   return (

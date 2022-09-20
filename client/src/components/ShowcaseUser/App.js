@@ -27,7 +27,7 @@ const App = () => {
         token = token.replace(/['"]+/g, "");
       }
 
-      console.log(token);
+   
       fetch("http://3.110.108.123:5000/user/infor", {
         method: "GET",
         headers: {
@@ -37,17 +37,16 @@ const App = () => {
         },
       })
         .then((res) => {
-          console.log('res',res);
+        
           return res.json();
         })
         .then((data) => {
           const role = data.role;
-          console.log('data',data);
-          console.log(role,"role");
+      
           fetch(`http://3.110.108.123:5000/api/v1/payment/getPaymentDetails/${data?._id}`)
           .then(res=>res.json())
           .then(data=>{
-            console.log('payment',data)
+          
             setPlan(data?.data)
           })
           if (role !== 0) {

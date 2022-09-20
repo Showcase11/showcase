@@ -59,7 +59,7 @@ const MainPage = () => {
         data.products.map((data) => {
           a.push(data);
         });
-        console.log(data, "op2");
+     
         setVids(a);
       });
   }, []);
@@ -78,10 +78,10 @@ const MainPage = () => {
           },
         });
         const b = await a.json();
-        console.log(b, "pkb");
+      
         const user_id = b._id;
-            console.log(Vids[slider],slider);
-        console.log(b, "b1");
+            
+    
         const obj={
             lat:Vids[slider].latitude,
             lng:Vids[slider].longitude,
@@ -102,7 +102,7 @@ const MainPage = () => {
         });
         // console.log(ps);
         const c = await ps.json();
-        console.log(c);
+    
         if (c.message == 0) {
           setOpen(true);
           setSv("error");
@@ -115,11 +115,11 @@ const MainPage = () => {
           setErrorMessage("Video Saved Successfully");
         }
       } catch (err) {
-        console.log(err);
+    
         alert("Error");
       }
     } else {
-      console.log("not logged in");
+    
       setOpen(true);
       setErrorMessage("Please Login to save");
     }

@@ -87,11 +87,10 @@ const NavBar = React.memo(function Nav() {
       }, 2000)
       // window.clearTimeout(timer)
     } */
-    console.log(load, 'load')
-    console.log(token)
+   
     if ((load || (token!== undefined && token !== null))) {
       token = token.replace(/['"]+/g, "");
-      console.log('token')
+      
       
       if(load) setLoad(!load) 
       setLogin("Logout")

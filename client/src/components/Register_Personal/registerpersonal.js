@@ -11,7 +11,7 @@ import { UseContext } from "../../App";
 
 // client id 
 const clientId = process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
-console.log(clientId)
+
 const RegisterPersonal = () => {
 
 
