@@ -72,12 +72,18 @@ const paymentCtrl = {
                 })
                 const result = await order.save()
                 console.log('save', result)
-                res.status(200).send({
-                    success: true,
-                    razorpay_order_id,
-                    razorpay_payment_id,
-                    result
-                })
+                if (result) {
+                    res.status(200).send({
+                        success: true,
+                        razorpay_order_id,
+                        razorpay_payment_id,
+                        result
+                    })
+                } else {
+                    res.status(400).json({
+                        message: 'something went wrong'
+                    })
+                }
             } else {
                 res.send({
                     success: false
@@ -90,20 +96,20 @@ const paymentCtrl = {
     },
     getPaymentDetails: async (req, res) => {
         try {
-            const {id}=req.params
+            const { id } = req.params
             console.log(req.params)
-            const result=await Payment.findOne({user:id})
-            console.log('result',result)
+            const result = await Payment.findOne({ user: id })
+            console.log('result', result)
             res.status(200).send({
-                message:'Success',
-                data:result,
-                status:200
+                message: 'Success',
+                data: result,
+                status: 200
             })
         } catch (error) {
             console.log(error.message)
             res.status(400).send({
-                error:error?.message,
-                message:'Failed to load'
+                error: error?.message,
+                message: 'Failed to load'
             })
         }
     }
