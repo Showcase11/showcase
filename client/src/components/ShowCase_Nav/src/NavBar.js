@@ -152,9 +152,9 @@ const NavBar = React.memo(function Nav() {
   const handleLogout = () => {
     googleLogOut()
     let token = localStorage.getItem("token");
-    console.log(token)
+  
     if (token /* !== undefined && token !== null */) {
-      console.log(token)
+     
       setLogin("Login")
       setTimeout(() => {
         setRefresh(!refresh)

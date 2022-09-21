@@ -13,6 +13,7 @@ const App = () => {
   const [closeGps, setCloseGps] = useState(false);
   const [data1, setData] = useState();
   const [plan, setPlan] = useState({})
+  const [load, setLoad] = useState(false)
   const VideoDetails = (data) => {
 
     setdisplayVideos((prev) => [...prev, data]);
@@ -58,7 +59,9 @@ const App = () => {
       .catch((err) => {
       
       });
+      // console.log(ModalClose)
   });
+
   return (
     <>
       {closeGps && <MapModal onGps={setCloseGps} />}
@@ -68,14 +71,22 @@ const App = () => {
         TotalVids={displayVideos.length}
         onModalClose={setModalClose}
         plan={plan}
+     
       />
       {ModalClose && (
-        <PostVideo onDisplay={VideoDetails} onModalClose={setModalClose} />
+        <PostVideo 
+        onDisplay={VideoDetails} 
+        onModalClose={setModalClose} 
+        setLoad={setLoad}
+        load={load}
+        />
       )}
       <Videos
         onFetch={FetchVideoDetails}
         onPreviewModal={setProductInfo}
         VideoDetails={displayVideos}
+        load={load}
+        setLoad={setLoad}
       ></Videos>
       {ProductInfo && (
         <PreviewVideo

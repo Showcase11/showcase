@@ -35,10 +35,6 @@ const config = {
 }
 
 
-
-
-
-
 const PostVideo = (props) => {
   const [fileMeta, setfileMeta] = useState({});
   const [CompanyName, setCompanyName] = useState("");
@@ -75,10 +71,10 @@ const PostVideo = (props) => {
       " File size " +
       (e.target.files[0].size / 1000000).toFixed(3) +
       "MB";
-    console.log(display)
+   
 
     setfileDisplay(display);
-    console.log(e.target.files[0], "obj");
+    // console.log(e.target.files[0], "obj");
     setPreviewVideo(URL.createObjectURL(e.target.files[0]));
 
     //console.log(e.target.files[0]);
@@ -96,11 +92,14 @@ const PostVideo = (props) => {
   const PostVideoHandler = (e) => {
     e.preventDefault();
     setLoading(true)
-    console.log(fileMeta);
+
     const handleUpload = async (file) => {
       uploadFile(file, config)
         .then(data => {
           setLoading(false)
+         
+          props.setLoad(true)
+          
           return setLink(data.location)
         })
         .catch(err => {
@@ -134,8 +133,10 @@ const PostVideo = (props) => {
 
 
   useEffect(() => {
+   
     async function handleupdate() {
       try {
+       
         const response = await axios.post(
           "http://3.110.108.123:5000/admin/products",
           {
@@ -156,10 +157,13 @@ const PostVideo = (props) => {
             },
           }
         );
+ 
+        props.setLoad(true)
+        props.onModalClose(false)
       } catch (err) {
         console.log(err);
       }
-      setLink("");
+      /* setLink("");
       setCompanyName("");
       setCompanyAddress("");
       setProductBrand("");
@@ -168,15 +172,15 @@ const PostVideo = (props) => {
       setProductPrice("");
       setProductDescription("");
       setLatitude(0);
-      setLongitude(0);
+      setLongitude(0); */
     }
     if (link != "") {
+    
       handleupdate();
     }
 
-  }, [link,Category])
+  }, [link, Category,link,CompanyName,ProductBrand,ProductPrice,loading])
 
-  if (loading) return <Loading />
 
   // const PostVideoHandler = (e) => {
   //   e.preventDefault();
@@ -391,7 +395,12 @@ const PostVideo = (props) => {
           ></textarea>
 
           <div className={styles.Buttons}>
-            <input className={styles.button_28} type="submit" value="Upload" />
+
+            {
+              loading ? <button className={styles.button_29} >
+               Processing...
+              </button> : <input className={styles.button_28} type="submit" value="Upload" />
+            }
             <button className={styles.button_29} onClick={CancelUpload}>
               Cancel
             </button>

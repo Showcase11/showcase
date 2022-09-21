@@ -22,7 +22,7 @@ const PreviewVideo = (props) => {
     }).then((res)=>{
         return res.json();
     }).then((data)=>{
-      console.log(data);
+
        setPv({
         phone:data.phone,
         country:data.country,

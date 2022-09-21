@@ -3,9 +3,13 @@ import styles from "../Appbusiness.module.css";
 import videogif from "../../../videogif.gif";
 const Videos = (props) => {
   const [vdp, setVdp] = useState([]);
+  const [refresh, setRefresh] = useState(false)
   useEffect(() => {
     let token = localStorage.getItem("token");
-  
+    if (props.load) {
+      setRefresh(!refresh)
+      props.setLoad(!props.load)
+    }
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
 
@@ -29,17 +33,18 @@ const Videos = (props) => {
               return res.json();
             })
             .then((products) => {
-             
+            
               const product = products.products.filter((product) =>
                 product.companyName.includes(id)
               );
-             
+
               setVdp(product);
               localStorage.setItem("vsize", product.length);
             });
         });
     }
-  }, []);
+  }, [props.load, refresh]);
+
   return (
     <>
       {" "}

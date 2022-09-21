@@ -120,7 +120,7 @@ const RegisterBusiness = () => {
         setName("");
         setPassword("");
         setCheck(false);
-        console.log(response)
+        
         localStorage.setItem(
           "token",
           JSON.stringify(response.data.accesstoken)
@@ -143,10 +143,7 @@ const RegisterBusiness = () => {
   } 
 
   const onSuccess = async (res) => {
-    console.log('[Login Success] currentUser:', res.profileObj);
-    console.log(res)
-    setEmail(res.profileObj.email)
-    setName(res.profileObj.name)
+ 
     // console.log(res.profileObj.email)
     try {
       const response = await axios.post(

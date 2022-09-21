@@ -14,7 +14,7 @@ const PaymentFrontend = () => {
     const [users, setUsers] = useState(null)
     const navigate = useNavigate()
     const token = localStorage.getItem('token')
-    console.log(token)
+
     useEffect(() => {
         if (!token) {
             console.log('click')
