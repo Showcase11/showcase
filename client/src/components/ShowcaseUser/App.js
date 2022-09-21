@@ -14,9 +14,11 @@ const App = () => {
   const [closeGps, setCloseGps] = useState(false);
   const [data1, setData] = useState();
   const [plan, setPlan] = useState({})
+
   const VideoDetails = (data) => {
     setdisplayVideos((prev) => [...prev, data]);
   };
+
   const FetchVideoDetails = (data) => {
     setData(data);
   };
@@ -26,7 +28,6 @@ const App = () => {
       if (token !== undefined && token !== null) {
         token = token.replace(/['"]+/g, "");
       }
-
    
       fetch("http://3.110.108.123:5000/user/infor", {
         method: "GET",

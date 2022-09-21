@@ -297,7 +297,7 @@ nav ul {
 
 .username {
   position: absolute;
-  width: 202px;
+  /* width: 202px; */
   height: 32px;
   left: 480px;
   top: 150px;
@@ -305,7 +305,7 @@ nav ul {
   font-family: "Roboto";
   font-style: normal;
   font-weight: 900;
-  font-size: 28px;
+  font-size: 24px;
   line-height: 32px;
 }
 
