@@ -9,7 +9,7 @@ import useUser from '../hooks/useUser';
 import styles from './Payment.module.css'
 
 
-const PaymentForm = ({setUsers}) => {
+const PaymentForm = ({ setUsers }) => {
 
     // hooks 
 
@@ -58,13 +58,13 @@ const PaymentForm = ({setUsers}) => {
         }
     }, [])
 
-    
-    if(!user) return navigate('/')
+
+    if (!user) return navigate('/')
     const handleCheck1 = (event) => {
         setChecked1(event.target.checked)
         // alert(event.target.checked)
         setPay(pay + Number(ref1?.current?.innerText.replace(/[^A-Za-z0-9]/g, "")))
-       
+
     };
 
     const handleCheck2 = (event) => {
@@ -79,11 +79,11 @@ const PaymentForm = ({setUsers}) => {
     const handleValue = (e) => {
         setValue(e.target.value)
     }
-  
+
 
     const handlePayment = async (e) => {
         e.preventDefault()
-       
+
 
         if (pay === 0) {
             setError('Please Select a payment value')
@@ -98,15 +98,15 @@ const PaymentForm = ({setUsers}) => {
             // get key 
             console.log(pay)
             const { data } = await axios.get(`http://3.110.108.123:5000/api/v1/payment/createOrder`)
-          
+
             const { data: result } = await axios.post(`http://3.110.108.123:5000/api/v1/payment/createOrder`, { pay })
-           
+
             var options = {
                 key: data?.data,
                 amount: result?.data?.amount,
                 currency: "INR",
                 name: user?.name,
-                
+
                 description: "Test Transaction",
                 image: "https://media-exp1.licdn.com/dms/image/C4D0BAQFb5Nycat7-sQ/company-logo_200_200/0/1613032358511?e=1671667200&v=beta&t=9eH6D-V14HXcMHh9o5adSzsYdt7FNeii01SSC4abPFg",
                 order_id: result?.data?.id,
@@ -116,12 +116,12 @@ const PaymentForm = ({setUsers}) => {
                         response,
                         email,
                         phone,
-                        name:user?.name,
-                        userId:user?._id,
+                        name: user?.name,
+                        userId: user?._id,
                         amount: pay,
                         plan: value
                     })
-                   
+
                     setSuccess('Your Payment is success')
                 },
                 prefill: {
@@ -151,8 +151,6 @@ const PaymentForm = ({setUsers}) => {
 
         }
     }
-
-
 
 
     return (
@@ -207,6 +205,7 @@ const PaymentForm = ({setUsers}) => {
                                         className={styles.payment_input}
                                         type="email"
                                         onChange={e => setEmail(e.target.value)}
+                                        disabled={true}
                                     />
                                 </Box>
                                 <Box
@@ -222,7 +221,9 @@ const PaymentForm = ({setUsers}) => {
                                         value={phone}
                                         className={styles.payment_input}
                                         type="phone"
-                                        onChange={e => setPhone(e.target.value)} />
+                                        onChange={e => setPhone(e.target.value)}
+                                        disabled={true}
+                                    />
                                 </Box>
                                 <Box>
                                     <Box
@@ -439,11 +440,11 @@ const PaymentForm = ({setUsers}) => {
                         }
                         {
                             success && <p
-                            style={{
-                                textAlign: 'center',
-                                color: 'orange',
-                                margin: '24px 0'
-                            }}
+                                style={{
+                                    textAlign: 'center',
+                                    color: 'orange',
+                                    margin: '24px 0'
+                                }}
                             >
                                 {success}
                             </p>

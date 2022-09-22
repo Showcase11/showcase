@@ -1,15 +1,61 @@
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-
 const mongoose = require('mongoose');
 const express = require('express');
 const paymentModel = require('../models/paymentModel')
 const Payment = new mongoose.model('payment', paymentModel)
-
+const nodemailer = require('nodemailer');
+const sgTransport = require('nodemailer-sendgrid-transport');
+// EMAIL_SENDER_API_KEY=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
 const instance = new Razorpay({
     key_id: process.env.Razorpay_Key_Id,
     key_secret: process.env.Razorpay_Key_Secret,
 });
+
+const emailOptions = {
+    auth: {
+        api_key: process.env.EMAIL_SENDER_API_KEY
+    }
+}
+
+const emailClient = nodemailer.createTransport(sgTransport(emailOptions));
+// send nodemailer 
+const sendEmail = (details) => {
+    console.log('Email sender')
+    // const { email, treatmentName, patientName, slot, date } = query
+    const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = details.response || {}
+    const { email, userId, plan, name,amount } = details || {}
+    const emailSend = {
+        from: process.env.EMAIL_SENDER,
+        to: email,
+        subject: `You have purchased ${plan} plan`,
+        text: 'Your plan is confirmed ',
+        html: `
+        <div>
+            <h3>Hello ${name}</h3>,
+            <p>We are pleased to inform you that you have successfully purchased the ${plan} plan</p>
+            <p>Your amount:${amount}</p>
+            <p>Your transactionId:${razorpay_payment_id}</p>
+            <h4>Our Address</h4>
+            <p>India</p>
+            <p>Hyderbad</p>
+
+            <p>Best Regards</p>
+            <p>Showcase Official</p>
+        </div>
+        `
+    };
+
+    emailClient.sendMail(emailSend, function (err, info) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log('Email sent: ', info);
+        }
+    });
+}
+
 
 const paymentCtrl = {
     // create order 
@@ -53,7 +99,7 @@ const paymentCtrl = {
         console.log('from body', req.body)
         try {
             const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body.response || {}
-            const { email, userId, plan } = req.body || {}
+            const { email, userId, plan, } = req.body || {}
             let body = razorpay_order_id + "|" + razorpay_payment_id;
 
             const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
@@ -71,7 +117,10 @@ const paymentCtrl = {
                     user: userId,
                 })
                 const result = await order.save()
-                console.log('save', result)
+
+                // console.log('save', result)
+                sendEmail(req.body)
+                console.log('after mail')
                 if (result) {
                     res.status(200).send({
                         success: true,
