@@ -38,7 +38,7 @@ const RegisterPersonal = () => {
     let regxpass = new RegExp(
       "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
     );
-    const userexist = await fetch("http://3.110.108.123:5000/exist", {
+    const userexist = await fetch("https://api.showcaseurbusiness.com/exist", {
 
       method: "POST",
       headers: {
@@ -65,7 +65,7 @@ const RegisterPersonal = () => {
     ) {
       try {
         const response = await axios.post(
-          "http://3.110.108.123:5000/user/register",
+          "https://api.showcaseurbusiness.com/user/register",
           {
             name: name,
             email: email,
@@ -105,7 +105,7 @@ const RegisterPersonal = () => {
     // console.log(res.profileObj.email)
     try {
       const response = await axios.post(
-        "http://3.110.108.123:5000/user/register",
+        "https://api.showcaseurbusiness.com/user/register",
         {
           name: res.profileObj.name,
           email: res.profileObj.email,

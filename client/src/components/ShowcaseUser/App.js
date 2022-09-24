@@ -29,7 +29,7 @@ const App = () => {
         token = token.replace(/['"]+/g, "");
       }
    
-      fetch("http://3.110.108.123:5000/user/infor", {
+      fetch("https://api.showcaseurbusiness.com/user/infor", {
         method: "GET",
         headers: {
           Authorization: token,
@@ -44,7 +44,7 @@ const App = () => {
         .then((data) => {
           const role = data.role;
       
-          fetch(`http://3.110.108.123:5000/api/v1/payment/getPaymentDetails/${data?._id}`)
+          fetch(`https://api.showcaseurbusiness.com/api/v1/payment/getPaymentDetails/${data?._id}`)
           .then(res=>res.json())
           .then(data=>{
           

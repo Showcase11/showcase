@@ -38,7 +38,7 @@ const Login = () => {
       "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
     );
 
-    const userexist = await fetch("http://3.110.108.123:5000/exist", {
+    const userexist = await fetch("https://api.showcaseurbusiness.com/exist", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const Login = () => {
       console.log('click')
       try {
 
-        const data = await axios.post("http://3.110.108.123:5000/user/login", {
+        const data = await axios.post("https://api.showcaseurbusiness.com/user/login", {
           email: email,
           password: password,
           google: 'google'
@@ -72,7 +72,7 @@ const Login = () => {
         let token = localStorage.getItem("token");
         token = token.replace(/['"]+/g, "");
         localStorage.setItem('token', JSON.stringify(token))
-        const roles = await fetch("http://3.110.108.123:5000/user/infor", {
+        const roles = await fetch("https://api.showcaseurbusiness.com/user/infor", {
           method: "GET",
           headers: {
             Authorization: token,
@@ -113,7 +113,7 @@ const Login = () => {
     try {
       setEmail(response?.profileObj?.email)
       console.log(response)
-      const data = await axios.post("http://3.110.108.123:5000/user/login", {
+      const data = await axios.post("https://api.showcaseurbusiness.com/user/login", {
         email: response?.profileObj?.email,
         google: 'google'
       });
@@ -128,7 +128,7 @@ const Login = () => {
       let token = localStorage.getItem("token");
       // verify token api 
       token = token.replace(/['"]+/g, "");
-      const roles = await fetch("http://3.110.108.123:5000/user/infor", {
+      const roles = await fetch("https://api.showcaseurbusiness.com/user/infor", {
         method: "GET",
         headers: {
           Authorization: token,

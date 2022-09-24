@@ -21,7 +21,7 @@ const Profile3 = () =>{
       navigate("/")
     }
     if(newpass === confirmpass){
-    const response = await axios.patch('http://3.110.108.123:5000/user/changepass',{
+    const response = await axios.patch('https://api.showcaseurbusiness.com/user/changepass',{
       oldpass: oldpass,
       newpass:newpass
     },{

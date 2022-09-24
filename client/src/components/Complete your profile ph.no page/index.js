@@ -44,7 +44,7 @@ const CYP2 = () => {
     } else if (phone.length === 10 && country !== "please" && country != "") {
       try {
         const response = await axios.patch(
-          "http://3.110.108.123:5000/user/compdetail",
+          "https://api.showcaseurbusiness.com/user/compdetail",
           {
             phone: phone,
             address: address.replace(/\s/g, ","),
@@ -58,7 +58,7 @@ const CYP2 = () => {
         );
         const responseData = response.data;
         console.log(responseData);
-        const res = await fetch("http://3.110.108.123:5000/onetimepassword", {
+        const res = await fetch("https://api.showcaseurbusiness.com/onetimepassword", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

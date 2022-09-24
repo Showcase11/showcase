@@ -13,7 +13,7 @@ const Videos = (props) => {
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
 
-      fetch("http://3.110.108.123:5000/user/infor", {
+      fetch("https://api.showcaseurbusiness.com/user/infor", {
         method: "GET",
         headers: {
           Authorization: token,
@@ -26,7 +26,7 @@ const Videos = (props) => {
         })
         .then((data) => {
           const id = data._id;
-          fetch("http://3.110.108.123:5000/admin/products", {
+          fetch("https://api.showcaseurbusiness.com/admin/products", {
             method: "GET",
           })
             .then((res) => {

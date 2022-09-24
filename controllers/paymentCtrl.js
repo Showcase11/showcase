@@ -56,7 +56,6 @@ const sendEmail = (details) => {
     });
 }
 
-
 const paymentCtrl = {
     // create order 
     order: async (req, res, next) => {
@@ -77,6 +76,7 @@ const paymentCtrl = {
             next(error)
         }
     },
+
     // send key to the fronend 
     getApiKey: async (req, res) => {
         try {
@@ -116,6 +116,7 @@ const paymentCtrl = {
                     paymentId: razorpay_payment_id,
                     user: userId,
                 })
+
                 const result = await order.save()
 
                 // console.log('save', result)
@@ -143,6 +144,7 @@ const paymentCtrl = {
             console.log(error.message)
         }
     },
+    
     getPaymentDetails: async (req, res) => {
         try {
             const { id } = req.params

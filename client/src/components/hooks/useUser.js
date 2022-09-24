@@ -7,7 +7,7 @@ const useUser = () => {
         if (token !== undefined && token !== null) {
             token = token.replace(/['"]+/g, "");
 
-            fetch("http://3.110.108.123:5000/user/infor", {
+            fetch("https://api.showcaseurbusiness.com/user/infor", {
                 method: "GET",
                 headers: {
                     Authorization: token,
@@ -20,7 +20,7 @@ const useUser = () => {
                 })
                 .then((data) => {
                     const id = data._id;
-                    fetch(`http://3.110.108.123:5000/user/saved/${id}`, {
+                    fetch(`https://api.showcaseurbusiness.com/user/saved/${id}`, {
                         method: "GET",
                     })
                         .then((res) => {

@@ -50,7 +50,7 @@ const RegisterBusiness = () => {
   //    if (token !== undefined && token !== null) {
   //      token = token.replace(/['"]+/g, "");
 
-  //    fetch("http://3.110.108.123:5000/user/infor", {
+  //    fetch("https://api.showcaseurbusiness.com/user/infor", {
   //      method: "GET",
   //      headers: {
   //        Authorization: token,
@@ -80,7 +80,7 @@ const RegisterBusiness = () => {
     e.preventDefault();
     let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
     let regxpass = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})");
-    const userexist = await fetch("http://3.110.108.123:5000/exist", {
+    const userexist = await fetch("https://api.showcaseurbusiness.com/exist", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -108,7 +108,7 @@ const RegisterBusiness = () => {
       try {
 
         const response = await axios.post(
-          "http://3.110.108.123:5000/user/register",
+          "https://api.showcaseurbusiness.com/user/register",
           {
             name: name,
             email: email,
@@ -147,7 +147,7 @@ const RegisterBusiness = () => {
     // console.log(res.profileObj.email)
     try {
       const response = await axios.post(
-        "http://3.110.108.123:5000/user/register",
+        "https://api.showcaseurbusiness.com/user/register",
         {
           name: res.profileObj.name,
           email:res.profileObj.email,

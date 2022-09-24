@@ -35,7 +35,7 @@ const PaymentForm = ({ setUsers }) => {
         if (token !== undefined && token !== null) {
             token = token.replace(/['"]+/g, "");
 
-            fetch("http://3.110.108.123:5000/user/infor", {
+            fetch("https://api.showcaseurbusiness.com/user/infor", {
                 method: "GET",
                 headers: {
                     Authorization: token,
@@ -97,9 +97,9 @@ const PaymentForm = ({ setUsers }) => {
             }
             // get key 
             console.log(pay)
-            const { data } = await axios.get(`http://3.110.108.123:5000/api/v1/payment/createOrder`)
+            const { data } = await axios.get(`https://api.showcaseurbusiness.com/api/v1/payment/createOrder`)
 
-            const { data: result } = await axios.post(`http://3.110.108.123:5000/api/v1/payment/createOrder`, { pay })
+            const { data: result } = await axios.post(`https://api.showcaseurbusiness.com/api/v1/payment/createOrder`, { pay })
 
             var options = {
                 key: data?.data,
@@ -112,7 +112,7 @@ const PaymentForm = ({ setUsers }) => {
                 order_id: result?.data?.id,
                 handler: async function (response) {
                     // verify apii 
-                    const { data } = await axios.post("http://3.110.108.123:5000/api/v1/payment/paymentVerification", {
+                    const { data } = await axios.post("https://api.showcaseurbusiness.com/api/v1/payment/paymentVerification", {
                         response,
                         email,
                         phone,

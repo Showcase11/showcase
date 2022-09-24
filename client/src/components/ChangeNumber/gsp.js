@@ -7,7 +7,7 @@ const GSP = () => {
   const navigate = useNavigate();
   const [address, setAddress] = useState("")
   const handleAddress = async() =>{
-    const res = await Axios.patch('http://3.110.108.123:5000/user/address', {
+    const res = await Axios.patch('https://api.showcaseurbusiness.com/user/address', {
       address: address,
   },{
     headers:{
