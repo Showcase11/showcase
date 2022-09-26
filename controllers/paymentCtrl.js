@@ -24,7 +24,7 @@ const sendEmail = (details) => {
     console.log('Email sender')
     // const { email, treatmentName, patientName, slot, date } = query
     const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = details.response || {}
-    const { email, userId, plan, name,amount } = details || {}
+    const { email, userId, plan, name, amount } = details || {}
     const emailSend = {
         from: process.env.EMAIL_SENDER,
         to: email,
@@ -119,10 +119,8 @@ const paymentCtrl = {
 
                 const result = await order.save()
 
-                // console.log('save', result)
-                sendEmail(req.body)
-                console.log('after mail')
                 if (result) {
+                    sendEmail(req.body)
                     res.status(200).send({
                         success: true,
                         razorpay_order_id,
@@ -144,7 +142,7 @@ const paymentCtrl = {
             console.log(error.message)
         }
     },
-    
+
     getPaymentDetails: async (req, res) => {
         try {
             const { id } = req.params
@@ -163,7 +161,18 @@ const paymentCtrl = {
                 message: 'Failed to load'
             })
         }
+    },
+
+    getAllPaymentDetails: async (req, res, next) => {
+        try {
+            const result=await Payment.find()
+            res.status(200).send(result)
+        } catch (error) {
+            next()
+        }
     }
+
+
 }
 
 module.exports = paymentCtrl

@@ -20,7 +20,7 @@ const Section = (props) => {
       if (token !== undefined && token !== null) {
         token = token.replace(/['"]+/g, "");
         try {
-          const response = await Axios.get('https://api.showcaseurbusiness.com/user/getpic', {
+          const response = await Axios.get('http://3.110.108.123:5000/user/getpic', {
             headers: {
               'Authorization': localStorage.getItem('token').replace(/['"]+/g, ""),
             }
@@ -46,7 +46,7 @@ const Section = (props) => {
     let token = localStorage.getItem("token");
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
-      fetch("https://api.showcaseurbusiness.com/user/infor", {
+      fetch("http://3.110.108.123:5000/user/infor", {
         method: "GET",
         headers: {
           Authorization: token,

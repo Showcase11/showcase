@@ -20,7 +20,7 @@ const Normal_profile_1 = () => {
       navigate("/")
     }
     if(newpass === confirmpass){
-    const response = await Axios.patch('https://api.showcaseurbusiness.com/user/changepass',{
+    const response = await Axios.patch('http://3.110.108.123:5000/user/changepass',{
       oldpass: oldpass,
       newpass:newpass
     },{

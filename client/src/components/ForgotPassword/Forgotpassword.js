@@ -19,7 +19,7 @@ const Profile3 = () => {
       const data1 = JSON.parse(data);
       const email= data1.email;
       const password = newpass;
-        fetch("https://api.showcaseurbusiness.com/updatePass", {
+        fetch("http://3.110.108.123:5000/updatePass", {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

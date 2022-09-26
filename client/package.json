@@ -19,6 +19,7 @@
     "react": "^18.1.0",
     "react-aws-s3": "^1.5.0",
     "react-countdown-circle-timer": "^3.0.9",
+    "react-countup": "^6.3.1",
     "react-dom": "^18.1.0",
     "react-google-login": "^5.2.2",
     "react-hyper-modal": "^1.2.16",
@@ -29,6 +30,7 @@
     "react-scripts": "^4.0.3",
     "react-select": "^3.1.0",
     "react-simple-chatbot": "^0.6.1",
+    "react-visibility-sensor": "^5.1.1",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },

@@ -9,7 +9,7 @@ const Normal_profile = () => {
   const [newname, setNewName] = useState("");
   const [url, setUrl] = useState("");
   // useEffect(async()=>{
-  //   const res=await fetch("https://api.showcaseurbusiness.com/user/infor")
+  //   const res=await fetch("http://3.110.108.123:5000/user/infor")
   //   const data=await res.json()
   //   console.log(data)
   //   if(data.msg=='Invalid' || localStorage.getItem("details")==null)
@@ -49,7 +49,7 @@ const Normal_profile = () => {
     var filesd = await handleimg(profile);
     try {
       const response = await axios.patch(
-        "https://api.showcaseurbusiness.com/user/personal",
+        "http://3.110.108.123:5000/user/personal",
         {
           about: about,
           profile: filesd,
@@ -171,7 +171,7 @@ const Normal_profile = () => {
                     //   }
                     //   try {
                     //     const user = await fetch(
-                    //       "https://api.showcaseurbusiness.com/user/infor",
+                    //       "http://3.110.108.123:5000/user/infor",
                     //       {
                     //         method: "GET",
                     //         headers: {
@@ -186,7 +186,7 @@ const Normal_profile = () => {
                     //     const delete_id = user1._id;
                     //     console.log(delete_id);
                     //     const deleteUser = await fetch(
-                    //       `https://api.showcaseurbusiness.com/user/delete/${delete_id}`,
+                    //       `http://3.110.108.123:5000/user/delete/${delete_id}`,
                     //       {
                     //         method: "DELETE",
                     //         headers: {

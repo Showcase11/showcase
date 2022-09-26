@@ -31,7 +31,7 @@ app.use(cors())
     'http://localhost:3000',
     'http://3.110.108.123:5000',
     'http://3.110.108.123:3000/',
-    'https://api.showcaseurbusiness.com/',
+    'http://3.110.108.123:5000/',
     'http://www.showcaseurbusiness.com/',
     'https://www.showcaseurbusiness.com/',
     'http://3.110.108.123/'
