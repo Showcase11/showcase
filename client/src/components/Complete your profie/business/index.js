@@ -77,7 +77,7 @@ const CompleteProfileOTP = () => {
     details = JSON.parse(details);
     let otp = otpref.current.value;
    
-    const res = await fetch("http://localhost:5000/otpcheck", {
+    const res = await fetch("https://api.showcaseurbusiness.com/otpcheck", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

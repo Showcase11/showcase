@@ -11,7 +11,7 @@ const Reset_password_by_email_address = () => {
     e.preventDefault();
     // console.log(country,Password);
     // gps
-    fetch("http://localhost:5000/onetimepassword", {
+    fetch("https://api.showcaseurbusiness.com/onetimepassword", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
