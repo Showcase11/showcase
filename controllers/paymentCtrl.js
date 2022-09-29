@@ -57,9 +57,11 @@ const sendEmail = (details) => {
 }
 
 const paymentCtrl = {
+    
     // create order 
     order: async (req, res, next) => {
         try {
+
             const options = {
                 amount: Number(req.body.pay * 100),
                 currency: "INR"
@@ -71,13 +73,14 @@ const paymentCtrl = {
                 message: 'Success',
                 data: order
             })
+
             console.log(order)
         } catch (error) {
             next(error)
         }
     },
 
-    // send key to the fronend 
+    // send key to the frontend 
     getApiKey: async (req, res) => {
         try {
             res.status(200).json({
@@ -127,6 +130,7 @@ const paymentCtrl = {
                         razorpay_payment_id,
                         result
                     })
+                    
                 } else {
                     res.status(400).json({
                         message: 'something went wrong'

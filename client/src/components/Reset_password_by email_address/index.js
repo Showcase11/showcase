@@ -11,7 +11,7 @@ const Reset_password_by_email_address = () => {
     e.preventDefault();
     // console.log(country,Password);
     // gps
-    fetch("http://3.110.108.123:5000/onetimepassword", {
+    fetch("http://localhost:5000/onetimepassword", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

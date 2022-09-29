@@ -6,7 +6,7 @@ const PreviewVideo = (props) => {
   console.log(props,"props234")
   const [det, setDet] = useState();
   useEffect(() => {
-    fetch("http://3.110.108.123:5000/admin/products")
+    fetch("https://api.showcaseurbusiness.com/admin/products")
       .then((res) => {
         return res.json();
       })

@@ -111,7 +111,7 @@ const PostVideo = (props) => {
     handleUpload(fileMeta);
     async function locate() {
       try {
-        const resp = await axios.get("http://3.110.108.123:5000/user/infor",
+        const resp = await axios.get("https://api.showcaseurbusiness.com/user/infor",
           {
             headers: {
               'Authorization': localStorage.getItem('token').replace(/['"]+/g, ""),
@@ -138,7 +138,7 @@ const PostVideo = (props) => {
       try {
        
         const response = await axios.post(
-          "http://3.110.108.123:5000/admin/products",
+          "https://api.showcaseurbusiness.com/admin/products",
           {
             link: link,
             companyName: CompanyName + "*" + id,
@@ -192,7 +192,7 @@ const PostVideo = (props) => {
   //     alert("Select File");
   //     return;
   //   }
-  //   fetch("http://3.110.108.123:5000/s3Url", {
+  //   fetch("https://api.showcaseurbusiness.com/s3Url", {
   //     method: "POST",
   //     headers: {
   //       "Content-Type": "application/json",
@@ -220,7 +220,7 @@ const PostVideo = (props) => {
   //       props.onModalClose(false);
   //       var token = localStorage.getItem("token");
   //       token = token.replace(/['"]+/g, "");
-  //       fetch("http://3.110.108.123:5000/user/infor", {
+  //       fetch("https://api.showcaseurbusiness.com/user/infor", {
   //         method: "GET",
   //         headers: {
   //           "Content-Type": "application/json",
@@ -234,7 +234,7 @@ const PostVideo = (props) => {
   //         .then((data) => {
   //           //
   //           console.log(data,"gpsdone")
-  //           fetch("http://3.110.108.123:5000/admin/products", {
+  //           fetch("https://api.showcaseurbusiness.com/admin/products", {
   //             method: "POST",
   //             headers: {
   //               "Content-Type": "application/json",

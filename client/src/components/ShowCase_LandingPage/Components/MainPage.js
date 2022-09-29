@@ -29,7 +29,7 @@ const MainPage = () => {
     let token = localStorage.getItem("token");
     if (token !== undefined && token !== null) {
       token = token.replace(/['"]+/g, "");
-      fetch("http://3.110.108.123:5000/user/infor", {
+      fetch("https://api.showcaseurbusiness.com/user/infor", {
         method: "GET",
         headers: {
           Authorization: token,
@@ -52,7 +52,7 @@ const MainPage = () => {
     }
   }, []);
   useEffect(() => {
-    fetch("http://3.110.108.123:5000/admin/products")
+    fetch("https://api.showcaseurbusiness.com/admin/products")
       .then((res) => res.json())
       .then((data) => {
         let a = [];
@@ -69,7 +69,7 @@ const MainPage = () => {
       token = token.replace(/['"]+/g, "");
 
       try {
-        const a = await fetch("http://3.110.108.123:5000/user/infor", {
+        const a = await fetch("https://api.showcaseurbusiness.com/user/infor", {
           method: "GET",
           headers: {
             Authorization: token,
@@ -87,7 +87,7 @@ const MainPage = () => {
             lng:Vids[slider].longitude,
             vlink:Vids[slider].link,
         }
-        const ps = await fetch("http://3.110.108.123:5000/user/saved", {
+        const ps = await fetch("https://api.showcaseurbusiness.com/user/saved", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

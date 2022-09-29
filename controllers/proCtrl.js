@@ -46,11 +46,6 @@ class APIfeatures {
     }
 }
 
-
-
-
-
-
 const productCtrl = {
     getProducts: async(req, res) =>{
         try {
