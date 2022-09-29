@@ -28,6 +28,8 @@ const Login = () => {
   useEffect(() => {
     gapi.load('client:auth2', () => {
       gapi.auth2.init({ clientId })
+      //  gapi.auth2.getAuthInstance({ clientId })
+
     })
   }, [clientId])
 

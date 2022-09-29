@@ -58,7 +58,7 @@ const CYP2 = () => {
         );
         const responseData = response.data;
         console.log(responseData);
-        const res = await fetch("http://localhost:5000/onetimepassword", {
+        const res = await fetch("https://api.showcaseurbusiness.com/onetimepassword", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
