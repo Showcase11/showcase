@@ -286,7 +286,9 @@ const MainPage = () => {
           </svg>
           <img src={LC} alt="circle" className="img-fluid img-pos" />
           <img src={RC} alt="ellipse" className="ellipse d-none d-lg-block" />
-          <svg width="1440" height="700">
+          <svg /* width="1440" height="700" */ 
+          className="svg"
+          >
             <circle cx="250" cy="230" r="314" fill="#3371F2" />
             <circle cx="-200" cy="-500" r="314" fill="#EEEEEE" />
           </svg>

@@ -148,7 +148,6 @@ const NavBar = React.memo(function Nav() {
     console.log('from google logout', res)
   }
 
-
   const handleLogout = () => {
     googleLogOut()
     let token = localStorage.getItem("token");

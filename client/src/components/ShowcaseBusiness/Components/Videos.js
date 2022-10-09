@@ -25,6 +25,7 @@ const Videos = (props) => {
           return res.json();
         })
         .then((data) => {
+          // console.log(data``)
           const id = data._id;
           fetch("https://api.showcaseurbusiness.com/admin/products", {
             method: "GET",
@@ -33,17 +34,17 @@ const Videos = (props) => {
               return res.json();
             })
             .then((products) => {
-            
-              const product = products.products.filter((product) =>
-                product.companyName.includes(id)
+              console.log(products)
+              const product = products?.products?.filter((product) =>
+                product?.companyName?.includes(id)
               );
-
+              console.log(product)
               setVdp(product);
               localStorage.setItem("vsize", product.length);
             });
         });
     }
-  }, [props.load, refresh]);
+  }, [props.load, refresh,props]);
 
   return (
     <>

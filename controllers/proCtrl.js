@@ -66,20 +66,21 @@ const productCtrl = {
     },
     createProduct: async(req, res) =>{
         try {
-            const { link, companyName, email,  brand, type, category, price, Description,latitude,longitude} = req.body;
+            const { link, companyName, email,  brand, type, category, price, Description,latitude,longitude,imgLink} = req.body || {};
             console.log(req.body);
-            if(!link) return res.status(400).json({msg: "No image upload"})
-            const product = await ProUser.findById(req.user.id)
+            if(!link) return res.status(400).json({msg: "No video upload"})
+            const product = await ProUser.findById(req?.user?.id)
             if(product)
                 return res.status(400).json({msg: "This product already exists."})
 
             const newProduct = new ProUser({
                 link, companyName, email,  brand, type, category, price, Description,
-                latitude,longitude
+                latitude,longitude,imgLink
             })
 
-            await newProduct.save()
-            res.json({msg: "Created a product"})
+            const result=await newProduct.save()
+            console.log('result',result)
+            res.json({msg: "Created a product",result})
 
         } catch (err) {
             return res.status(500).json({msg: err.message})

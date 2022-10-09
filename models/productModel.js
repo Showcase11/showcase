@@ -6,33 +6,38 @@ const BusSchema = new mongoose.Schema({
     
     link: {
         type: String,
-        required: true,
+        // required: true,
+        trim: true
+    },
+    imgLink:{
+        type: String,
+        required: [true, ' Please upload product image'],
         trim: true
     },
     companyName: {
         type: String,
-        required: true
+        // required: true
     },
      latitude:{
         type: Number,
-        required: true
+        // required: true
      },
      longitude:{
         type: Number,
-        required: true
+        // required: true
         },
     email: {
         type: String,
-        required: true,
+        // required: true,
         unique: true,
     },
     brand:{
         type: String,
-        required: true
+        // required: true
     },
     type:{
         type: String,
-        required: true
+        // required: true
     },
     category: {
         type: String,
@@ -40,12 +45,12 @@ const BusSchema = new mongoose.Schema({
     },
     price: {
         type: String,
-        required: true
+        // required: true
     },
     
     Description: {
         type: String,
-        required: true
+        // required: true
     }
 
 }, {

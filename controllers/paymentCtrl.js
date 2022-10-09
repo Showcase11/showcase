@@ -6,7 +6,7 @@ const paymentModel = require('../models/paymentModel')
 const Payment = new mongoose.model('payment', paymentModel)
 const nodemailer = require('nodemailer');
 const sgTransport = require('nodemailer-sendgrid-transport');
-// EMAIL_SENDER_API_KEY=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
+
 const instance = new Razorpay({
     key_id: process.env.Razorpay_Key_Id,
     key_secret: process.env.Razorpay_Key_Secret,
@@ -19,6 +19,7 @@ const emailOptions = {
 }
 
 const emailClient = nodemailer.createTransport(sgTransport(emailOptions));
+
 // send nodemailer 
 const sendEmail = (details) => {
     console.log('Email sender')
@@ -57,7 +58,7 @@ const sendEmail = (details) => {
 }
 
 const paymentCtrl = {
-    
+
     // create order 
     order: async (req, res, next) => {
         try {
@@ -123,6 +124,7 @@ const paymentCtrl = {
                 const result = await order.save()
 
                 if (result) {
+
                     sendEmail(req.body)
                     res.status(200).send({
                         success: true,
@@ -130,7 +132,7 @@ const paymentCtrl = {
                         razorpay_payment_id,
                         result
                     })
-                    
+
                 } else {
                     res.status(400).json({
                         message: 'something went wrong'
@@ -169,7 +171,7 @@ const paymentCtrl = {
 
     getAllPaymentDetails: async (req, res, next) => {
         try {
-            const result=await Payment.find()
+            const result = await Payment.find()
             res.status(200).send(result)
         } catch (error) {
             next()

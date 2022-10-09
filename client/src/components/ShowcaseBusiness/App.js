@@ -60,7 +60,7 @@ const App = () => {
       
       });
       // console.log(ModalClose)
-  });
+  },[navigate]);
 
   return (
     <>

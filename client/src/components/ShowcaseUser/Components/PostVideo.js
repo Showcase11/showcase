@@ -30,8 +30,6 @@ const PostVideo = (props) => {
         setfileMeta(e.target.files[0]);
         setPreviewVideo(URL.createObjectURL(e.target.files[0]));
         
-        
-      
      
     //console.log(e.target.files[0]);
   };

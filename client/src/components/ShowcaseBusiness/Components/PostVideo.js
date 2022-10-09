@@ -64,7 +64,6 @@ const PostVideo = (props) => {
   const FileChangeHandler = (e) => {
     setfileMeta(e.target.files[0]);
 
-
     const display =
       "File name " +
       e.target.files[0].name +
@@ -90,6 +89,8 @@ const PostVideo = (props) => {
 
 
   const PostVideoHandler = (e) => {
+
+
     e.preventDefault();
     setLoading(true)
 
@@ -97,9 +98,8 @@ const PostVideo = (props) => {
       uploadFile(file, config)
         .then(data => {
           setLoading(false)
-         
           props.setLoad(true)
-          
+          console.log(data)
           return setLink(data.location)
         })
         .catch(err => {
@@ -136,7 +136,7 @@ const PostVideo = (props) => {
    
     async function handleupdate() {
       try {
-       
+       console.log(link)
         const response = await axios.post(
           "https://api.showcaseurbusiness.com/admin/products",
           {
@@ -275,6 +275,12 @@ const PostVideo = (props) => {
   //       });
   //     });
   // };
+ 
+ 
+ 
+ 
+ 
+ 
   return (
     <div
       onClick={() => {

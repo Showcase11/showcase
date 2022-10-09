@@ -112,7 +112,7 @@ const PaymentForm = ({ setUsers }) => {
                 order_id: result?.data?.id,
                 handler: async function (response) {
                     // verify apii 
-                    const { data } = await axios.post("https://api.showcaseurbusiness.com/api/v1/payment/paymentVerification", {
+                    const { data } = await axios.post("http://localhost:5000/api/v1/payment/paymentVerification", {
                         response,
                         email,
                         phone,

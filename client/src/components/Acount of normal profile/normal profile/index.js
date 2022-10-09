@@ -3,13 +3,16 @@ import styles from "./normal_profile.module.css";
 import { useNavigate } from 'react-router-dom'
 import Axios from 'axios';
 import Loading from "../../shared/Loading";
+
 const Normal_profile = () => {
+
   const navigate = useNavigate()
   const [about, setAbout] = useState("");
   const [profile, setProfile] = useState("");
   const [newname, setNewName] = useState("");
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false)
+  
   useEffect(() => {
     async function Underuseffect() {
       let token = localStorage.getItem("token");
